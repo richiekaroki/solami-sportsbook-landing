@@ -1,6 +1,10 @@
 import { writable, derived, get } from 'svelte/store';
 import type { BetSelection } from '$lib/types';
-import { calcAccaOdds, calcPotentialWin } from '$lib/utils/odds-logic';
+import { calcAccaOdds, calcPotentialWin, calcKenyaTax } from '$lib/utils/odds-logic';
+
+const MIN_STAKE = 10;
+const MAX_STAKE = 500_000;
+const MAX_SELECTIONS = 20;
 
 function createBetSlipStore() {
 	const store = writable<Map<number, BetSelection>>(new Map());
@@ -13,10 +17,10 @@ function createBetSlipStore() {
 			update((current) => {
 				const next = new Map(current);
 				if (next.has(selection.oddId)) {
-					// Same button clicked again → deselect
 					next.delete(selection.oddId);
 				} else {
-					// Remove any existing pick from same match + same market
+					if (next.size >= MAX_SELECTIONS) return current;
+					// Remove existing pick from same match + same market
 					for (const [id, sel] of next) {
 						if (sel.matchLabel === selection.matchLabel && sel.market === selection.market) {
 							next.delete(id);
@@ -44,9 +48,17 @@ function createBetSlipStore() {
 	};
 }
 
-export const betSlip      = createBetSlipStore();
-export const selections   = derived(betSlip, ($m) => [...$m.values()]);
+export const betSlip        = createBetSlipStore();
+export const selections     = derived(betSlip, ($m) => [...$m.values()]);
 export const selectionCount = derived(betSlip, ($m) => $m.size);
-export const totalOdds    = derived(selections, ($s) => $s.length ? calcAccaOdds($s.map(s => s.odds)) : 0);
-export const stake        = writable<number>(100);
-export const potentialWin = derived([totalOdds, stake], ([$o, $s]) => $o > 0 ? calcPotentialWin($s, $o) : 0);
+export const totalOdds      = derived(selections, ($s) => $s.length ? calcAccaOdds($s.map(s => s.odds)) : 0);
+export const stake          = writable<number>(100);
+export const potentialWin   = derived([totalOdds, stake], ([$o, $s]) => $o > 0 ? calcPotentialWin($s, $o) : 0);
+
+/** Full Kenya tax breakdown — drives betslip payout display */
+export const taxBreakdown = derived([totalOdds, stake], ([$o, $s]) => {
+	if ($o === 0) return null;
+	return calcKenyaTax($s, $o);
+});
+
+export { MIN_STAKE, MAX_STAKE, MAX_SELECTIONS };

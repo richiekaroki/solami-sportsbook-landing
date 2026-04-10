@@ -2,9 +2,7 @@
 	import Badge from '$lib/components/ui/Badge.svelte';
 	import MarketButton from '$lib/components/ui/MarketButton.svelte';
 	import TeamBadge from '$lib/components/ui/TeamBadge.svelte';
-	import { betSlip } from '$lib/stores/betslip';
-	import { toasts } from '$lib/stores/toast';
-	import type { BetSelection, Game } from '$lib/types';
+	import type { Game } from '$lib/types';
 	import { formatKickoff } from '$lib/utils/formatters';
 	import { ChevronRight } from 'lucide-svelte';
 
@@ -15,32 +13,6 @@
 	const matchLabel = $derived(`${game.home_team} vs ${game.away_team}`);
 	const main1x2    = $derived(game.markets.find((m) => m.sub_type_id === 1));
 	const ggng       = $derived(game.markets.find((m) => m.sub_type_id === 29));
-
-	function toggleBet(odd: {
-		event_odd_id: number;
-		outcome_alias: string;
-		outcome_name: string;
-		odd_value: number;
-	}, marketType: string) {
-		const selection: BetSelection = {
-			oddId: odd.event_odd_id,
-			matchLabel,
-			competition: game.competition_name,
-			market: marketType,
-			pick: odd.outcome_alias,
-			outcome: odd.outcome_name,
-			odds: odd.odd_value
-		};
-
-		const alreadySelected = betSlip.has(odd.event_odd_id);
-		betSlip.toggle(selection);
-
-		if (!alreadySelected) {
-			toasts.show(`${odd.outcome_alias} added`, 'add');
-		} else {
-			toasts.show(`${odd.outcome_alias} removed`, 'remove');
-		}
-	}
 </script>
 
 <article class="overflow-hidden rounded-xl transition-all duration-200 hover:translate-y-[-1px]"
@@ -80,11 +52,7 @@
 		{#if main1x2}
 			<div class="flex gap-1.5 shrink-0">
 				{#each main1x2.odds as odd (odd.event_odd_id)}
-					<MarketButton
-						{odd}
-						selected={$betSlip.has(odd.event_odd_id)}
-						onClick={() => toggleBet(odd, '1x2')}
-					/>
+					<MarketButton {odd} {matchLabel} competition={game.competition_name} marketType="1x2" compact />
 				{/each}
 			</div>
 		{/if}
@@ -98,11 +66,7 @@
 			</span>
 			<div class="flex gap-1.5">
 				{#each ggng.odds as odd (odd.event_odd_id)}
-					<MarketButton
-						{odd}
-						selected={$betSlip.has(odd.event_odd_id)}
-						onClick={() => toggleBet(odd, 'ggng')}
-					/>
+					<MarketButton {odd} {matchLabel} competition={game.competition_name} marketType="GG/NG" compact />
 				{/each}
 			</div>
 		</div>

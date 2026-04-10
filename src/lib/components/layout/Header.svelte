@@ -1,29 +1,39 @@
 <script lang="ts">
 	import { toasts }         from '$lib/stores/toast';
 	import { selectionCount } from '$lib/stores/betslip';
+	import { trackCTA, trackAuthModalOpen } from '$lib/utils/tracking';
 	import { Menu, X }        from 'lucide-svelte';
+
+	interface Props {
+		onJoin: () => void;
+	}
+	let { onJoin }: Props = $props();
 
 	let mobileMenuOpen = $state(false);
 
 	const navItems = [
-		{ label: 'Home',    icon: '🏠', active: true  },
-		{ label: 'Live',    icon: '📡', active: false },
-		{ label: 'Aviator', icon: '✈️', active: false },
-		{ label: 'Crash',   icon: '💥', active: false },
-		{ label: 'League',  icon: '🏆', active: false },
+		{ label: 'Home',    icon: '', active: true  },
+		{ label: 'Live',    icon: '', active: false },
+		{ label: 'Aviator', icon: '', active: false },
+		{ label: 'Crash',   icon: '', active: false },
+		{ label: 'League',  icon: '', active: false },
 	];
 
 	function handleNav(item: typeof navItems[0]) {
 		if (!item.active) toasts.show(`${item.label} — coming soon!`, 'info');
+	}
+
+	function handleJoin(source: string) {
+		trackCTA('join_now', source);
+		onJoin();
 	}
 </script>
 
 <header class="fixed top-0 left-0 right-0 z-50 h-[56px]"
 	style="background:#0b1628; border-bottom:1px solid rgba(255,255,255,0.08);">
 
-	<!-- ── DESKTOP (xl+) ── -->
+	<!-- DESKTOP -->
 	<div class="hidden xl:flex items-center h-full w-full">
-		<!-- Logo — matches left sidebar width -->
 		<div class="shrink-0 flex items-center gap-2.5 px-5 h-full"
 			style="width:240px; border-right:1px solid rgba(255,255,255,0.08);">
 			<div class="relative w-5 h-5 flex items-center justify-center">
@@ -33,11 +43,9 @@
 			<span class="font-display text-[22px] tracking-[3px] text-white leading-none">SOLAMI</span>
 		</div>
 
-		<!-- Nav tabs -->
-		<div class="flex-1 flex items-center gap-1 px-4 h-full" style="scrollbar-width:none; overflow-x:auto;">
+		<div class="flex-1 flex items-center gap-1 px-4 h-full overflow-x-auto" style="scrollbar-width:none;">
 			{#each navItems as item}
-				<button
-					onclick={() => handleNav(item)}
+				<button onclick={() => handleNav(item)}
 					class="flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-[13px] font-semibold whitespace-nowrap shrink-0 transition-all duration-150"
 					style="background:{item.active ? '#22c55e' : 'transparent'}; color:{item.active ? '#fff' : '#8892a4'};"
 					onmouseenter={(e) => { if (!item.active) { const el = e.currentTarget as HTMLElement; el.style.background='rgba(255,255,255,0.06)'; el.style.color='#e4e8f0'; }}}
@@ -52,7 +60,6 @@
 			{/each}
 		</div>
 
-		<!-- Actions — matches right panel width -->
 		<div class="shrink-0 flex items-center justify-end gap-2 px-4 h-full"
 			style="width:260px; border-left:1px solid rgba(255,255,255,0.08);">
 			{#if $selectionCount > 0}
@@ -63,13 +70,13 @@
 					bets
 				</span>
 			{/if}
-			<button onclick={() => toasts.show('Login — coming soon!', 'info')}
+			<button onclick={() => handleJoin('header_login')}
 				class="px-4 py-1.5 rounded-lg border text-[13px] font-medium transition-colors duration-150"
 				style="border-color:rgba(255,255,255,0.12); color:#8892a4;"
 				onmouseenter={(e) => (e.currentTarget as HTMLElement).style.color='#e4e8f0'}
 				onmouseleave={(e) => (e.currentTarget as HTMLElement).style.color='#8892a4'}
 			>Log In</button>
-			<button onclick={() => toasts.show('Registration — coming soon!', 'info')}
+			<button onclick={() => handleJoin('header_join')}
 				class="px-4 py-1.5 rounded-lg text-[13px] font-bold transition-all duration-150"
 				style="background:#f5c842; color:#0b1628; box-shadow:0 2px 12px rgba(245,200,66,0.3);"
 				onmouseenter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background='#ffd700'; el.style.transform='translateY(-1px)'; }}
@@ -78,19 +85,15 @@
 		</div>
 	</div>
 
-	<!-- ── MOBILE (<xl) ── -->
+	<!-- MOBILE -->
 	<div class="xl:hidden flex items-center h-full w-full px-3 gap-2 min-w-0">
-		<!-- Compact logo -->
 		<a href="/" class="flex items-center gap-1.5 shrink-0">
 			<span class="relative w-2 h-2 rounded-full bg-[#f5c842]"></span>
 			<span class="font-display text-[19px] tracking-[2px] text-white leading-none">SOLAMI</span>
 		</a>
-
-		<!-- Scrollable nav pills — flex-1 ensures they use remaining space -->
-		<div class="flex-1 min-w-0 flex items-center gap-1 overflow-x-auto" style="scrollbar-width:none; -webkit-overflow-scrolling:touch;">
+		<div class="flex-1 min-w-0 flex items-center gap-1 overflow-x-auto" style="scrollbar-width:none;">
 			{#each navItems as item}
-				<button
-					onclick={() => handleNav(item)}
+				<button onclick={() => handleNav(item)}
 					class="flex items-center gap-1 px-3 py-1.5 rounded-lg text-[12px] font-semibold whitespace-nowrap shrink-0 transition-all duration-150"
 					style="background:{item.active ? '#22c55e' : 'rgba(255,255,255,0.06)'}; color:{item.active ? '#fff' : '#8892a4'};"
 				>
@@ -99,15 +102,12 @@
 				</button>
 			{/each}
 		</div>
-
-		<!-- Menu button → Login + Join -->
 		{#if $selectionCount > 0}
 			<span class="shrink-0 w-5 h-5 rounded-full bg-[#f5c842] text-[#0b1628] text-[11px] font-bold flex items-center justify-center">
 				{$selectionCount}
 			</span>
 		{/if}
-		<button class="shrink-0 p-1.5 rounded-lg"
-			style="background:rgba(255,255,255,0.08); color:#8892a4;"
+		<button class="shrink-0 p-1.5 rounded-lg" style="background:rgba(255,255,255,0.08); color:#8892a4;"
 			onclick={() => (mobileMenuOpen = !mobileMenuOpen)}
 		>
 			{#if mobileMenuOpen}<X size={16} />{:else}<Menu size={16} />{/if}
@@ -115,15 +115,14 @@
 	</div>
 </header>
 
-<!-- Mobile dropdown -->
 {#if mobileMenuOpen}
 	<div class="xl:hidden fixed top-[56px] left-0 right-0 z-40 px-4 py-3 flex flex-col gap-2 animate-slide-up"
 		style="background:#0b1628; border-bottom:1px solid rgba(255,255,255,0.08);">
-		<button onclick={() => { toasts.show('Login — coming soon!', 'info'); mobileMenuOpen=false; }}
+		<button onclick={() => { handleJoin('mobile_login'); mobileMenuOpen=false; }}
 			class="w-full py-2.5 rounded-lg border text-[14px] font-medium"
 			style="border-color:rgba(255,255,255,0.12); color:#8892a4;">Log In</button>
-		<button onclick={() => { toasts.show('Registration — coming soon!', 'info'); mobileMenuOpen=false; }}
+		<button onclick={() => { handleJoin('mobile_join'); mobileMenuOpen=false; }}
 			class="w-full py-2.5 rounded-lg text-[14px] font-bold"
-			style="background:#f5c842; color:#0b1628;">Join Now</button>
+			style="background:#f5c842; color:#0b1628;">Join Now — Claim KSh 500</button>
 	</div>
 {/if}

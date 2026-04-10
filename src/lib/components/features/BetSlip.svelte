@@ -1,8 +1,8 @@
 <script lang="ts">
-	import { betSlip, potentialWin, selectionCount, selections, stake, totalOdds } from '$lib/stores/betslip';
-	import { toasts } from '$lib/stores/toast';
-	import { formatKES, formatOdds } from '$lib/utils/formatters';
-	import { ShoppingCart, X, Zap } from 'lucide-svelte';
+	import { betSlip, selections, selectionCount, totalOdds, stake, potentialWin } from '$lib/stores/betslip';
+	import { toasts }    from '$lib/stores/toast';
+	import { formatOdds, formatKES } from '$lib/utils/formatters';
+	import { X, Zap, ShoppingCart } from 'lucide-svelte';
 
 	let sheetOpen  = $state(false);
 	let activeMode = $state<'single' | 'acca'>('single');

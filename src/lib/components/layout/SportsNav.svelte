@@ -16,7 +16,7 @@
 	const tabs = $derived(buildTabs(games));
 </script>
 
-<div class="flex gap-1.5 overflow-x-auto pb-1" style="scrollbar-width: thin; -webkit-overflow-scrolling: touch;">
+<div class="flex gap-1.5 overflow-x-auto pb-1" style="scrollbar-width:none;">
 	{#each tabs as tab (tab.id)}
 		<button
 			onclick={() => onSelect(tab.id)}
@@ -29,8 +29,7 @@
 			"
 		>
 			<span class="text-sm">{tab.icon}</span>
-			<span class="hidden sm:inline">{tab.label}</span>
-			<span class="sm:hidden">{tab.label === 'All Matches' ? 'All' : tab.label}</span>
+			{tab.label}
 			<span class="text-[10px] font-bold px-1.5 py-0.5 rounded-full"
 				style="background:{activeComp===tab.id ? 'rgba(245,200,66,0.2)' : 'rgba(255,255,255,0.07)'}; color:{activeComp===tab.id ? '#f5c842' : '#4d5568'};">
 				{tab.count}

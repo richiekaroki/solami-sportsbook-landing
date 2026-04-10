@@ -10,8 +10,8 @@
 
 	const topLeagues = [
 		{ name:'LaLiga',               flag:'🇪🇸', color:'#f87171' },
-		{ name:'UEFA Champions League', flag:'⭐', color:'#60a5fa' },
-		{ name:'Premier League',        flag:'EN', color:'#a78bfa' },
+		{ name:'UEFA Champions League', flag:'🇪🇺', color:'#60a5fa' },
+		{ name:'Premier League',        flag:'🇬🇧', color:'#a78bfa' },
 		{ name:'Bundesliga',            flag:'🇩🇪', color:'#fb923c' },
 		{ name:'Serie A',               flag:'🇮🇹', color:'#4ade80' },
 	];
@@ -23,8 +23,8 @@
 	<div class="px-3 pt-3 pb-2 shrink-0">
 		<div class="flex items-center gap-2 rounded-xl px-3 py-2.5 transition-all duration-150"
 			style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07);"
-			onfocus={(e: FocusEvent) => ((e.currentTarget as HTMLElement).style.borderColor='rgba(245,200,66,0.35)')}
-			onblur={(e: FocusEvent) => ((e.currentTarget as HTMLElement).style.borderColor='rgba(255,255,255,0.07)')}
+			onfocusin={(e: FocusEvent) => ((e.currentTarget as HTMLElement).style.borderColor='rgba(245,200,66,0.35)')}
+			onfocusout={(e: FocusEvent) => ((e.currentTarget as HTMLElement).style.borderColor='rgba(255,255,255,0.07)')}
 		>
 			<Search size={13} style="color:#4d5568; flex-shrink:0;" />
 			<input type="text" placeholder="Search leagues, teams..."
