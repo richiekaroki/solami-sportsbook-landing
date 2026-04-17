@@ -1,20 +1,29 @@
 <script lang="ts">
-	import { toasts } from '$lib/stores/toast';
 	import { Search } from 'lucide-svelte';
+	import { goto }   from '$app/navigation';
+	import { toasts } from '$lib/stores/toast';
 
 	const topGames = [
-		{ name:'Aviator',   bg:'linear-gradient(135deg,#1a0505,#0d0202)', accent:'#ff4444', glow:'rgba(255,68,68,0.15)', emoji:'✈️' },
-		{ name:'JetX',      bg:'linear-gradient(135deg,#05071a,#02040d)', accent:'#4488ff', glow:'rgba(68,136,255,0.15)', emoji:'🚀' },
-		{ name:'Navigator', bg:'linear-gradient(135deg,#051a07,#020d03)', accent:'#44dd88', glow:'rgba(68,221,136,0.15)', emoji:'🎯' },
+		{ name: 'Aviator',   href: '/aviator', bg: 'linear-gradient(135deg,#1a0505,#0d0202)', accent: '#ff4444', glow: 'rgba(255,68,68,0.15)',   emoji: '✈️' },
+		{ name: 'JetX',      href: null,       bg: 'linear-gradient(135deg,#05071a,#02040d)', accent: '#4488ff', glow: 'rgba(68,136,255,0.15)',  emoji: '🚀' },
+		{ name: 'Navigator', href: null,       bg: 'linear-gradient(135deg,#051a07,#020d03)', accent: '#44dd88', glow: 'rgba(68,221,136,0.15)', emoji: '🎯' },
 	];
 
 	const topLeagues = [
-		{ name:'LaLiga',               flag:'🇪🇸', color:'#f87171' },
-		{ name:'UEFA Champions League', flag:'🇪🇺', color:'#60a5fa' },
-		{ name:'Premier League',        flag:'🇬🇧', color:'#a78bfa' },
-		{ name:'Bundesliga',            flag:'🇩🇪', color:'#fb923c' },
-		{ name:'Serie A',               flag:'🇮🇹', color:'#4ade80' },
+		{ name: 'LaLiga',               flag: '🇪🇸', color: '#f87171' },
+		{ name: 'UEFA Champions League', flag: '⭐',  color: '#60a5fa' },
+		{ name: 'Premier League',        flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿', color: '#a78bfa' },
+		{ name: 'Bundesliga',            flag: '🇩🇪', color: '#fb923c' },
+		{ name: 'Serie A',               flag: '🇮🇹', color: '#4ade80' },
 	];
+
+	function handleGame(game: typeof topGames[number]) {
+		if (game.href) {
+			goto(game.href);
+		} else {
+			toasts.show(`${game.name} — coming soon!`, 'info');
+		}
+	}
 </script>
 
 <aside class="flex flex-col h-full overflow-y-auto" style="scrollbar-width:none;">
@@ -23,8 +32,8 @@
 	<div class="px-3 pt-3 pb-2 shrink-0">
 		<div class="flex items-center gap-2 rounded-xl px-3 py-2.5 transition-all duration-150"
 			style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07);"
-			onfocusin={(e: FocusEvent) => ((e.currentTarget as HTMLElement).style.borderColor='rgba(245,200,66,0.35)')}
-			onfocusout={(e: FocusEvent) => ((e.currentTarget as HTMLElement).style.borderColor='rgba(255,255,255,0.07)')}
+			onfocusin={(e: FocusEvent)  => ((e.currentTarget as HTMLElement).style.borderColor = 'rgba(245,200,66,0.35)')}
+			onfocusout={(e: FocusEvent) => ((e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.07)')}
 		>
 			<Search size={13} style="color:#4d5568; flex-shrink:0;" />
 			<input type="text" placeholder="Search leagues, teams..."
@@ -37,11 +46,11 @@
 	<div class="grid grid-cols-5 px-2 pb-3 shrink-0"
 		style="border-bottom:1px solid rgba(255,255,255,0.06);">
 		{#each [
-			{ label:'My Bets', icon:'📋' },
-			{ label:'Profile', icon:'👤' },
-			{ label:'Chat',    icon:'💬' },
-			{ label:'Affiliate', icon:'🤝' },
-			{ label:'Promos',  icon:'🎁' },
+			{ label: 'My Bets',   icon: '📋' },
+			{ label: 'Profile',   icon: '👤' },
+			{ label: 'Chat',      icon: '💬' },
+			{ label: 'Affiliate', icon: '🤝' },
+			{ label: 'Promos',    icon: '🎁' },
 		] as item}
 			<button
 				onclick={() => toasts.show(`${item.label} — coming soon!`, 'info')}
@@ -51,7 +60,10 @@
 				onmouseleave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background='transparent'; el.style.color='#4d5568'; }}
 			>
 				<span class="text-[18px] leading-none">{item.icon}</span>
-				<span class="text-[9px] font-medium leading-tight text-center" style="max-width:44px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{item.label}</span>
+				<span class="text-[9px] font-medium leading-tight text-center"
+					style="max-width:44px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">
+					{item.label}
+				</span>
 			</button>
 		{/each}
 	</div>
@@ -62,14 +74,17 @@
 		<div class="flex flex-col gap-1.5">
 			{#each topGames as game}
 				<button
-					onclick={() => toasts.show(`${game.name} — coming soon!`, 'info')}
+					onclick={() => handleGame(game)}
 					class="w-full rounded-xl overflow-hidden flex items-center gap-3 px-3 py-2.5 transition-all duration-200 text-left"
 					style="background:{game.bg}; border:1px solid rgba(255,255,255,0.05); box-shadow:inset 0 0 20px {game.glow};"
 					onmouseenter={(e) => { const el = e.currentTarget as HTMLElement; el.style.transform='translateX(3px)'; el.style.borderColor='rgba(255,255,255,0.1)'; }}
 					onmouseleave={(e) => { const el = e.currentTarget as HTMLElement; el.style.transform=''; el.style.borderColor='rgba(255,255,255,0.05)'; }}
 				>
 					<span class="text-[22px] leading-none">{game.emoji}</span>
-					<span class="font-bold text-[13px] tracking-[0.5px]" style="color:{game.accent}; text-shadow:0 0 12px {game.glow};">{game.name}</span>
+					<span class="font-bold text-[13px] tracking-[0.5px]"
+						style="color:{game.accent}; text-shadow:0 0 12px {game.glow};">
+						{game.name}
+					</span>
 				</button>
 			{/each}
 		</div>

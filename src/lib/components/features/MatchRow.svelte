@@ -16,9 +16,8 @@
 	const doubleChance = $derived(game.markets.find((m) => m.sub_type_id === 10));
 	const ggng         = $derived(game.markets.find((m) => m.sub_type_id === 29));
 
-	// Reactive bet count
+	// Stable bet count — computed once from initial prop (props are stable per row instance)
 	const betCount = $derived(estimateBetCount(game.total_markets));
-
 	// Detect if any selected odd in this row is in the slip (for row highlight)
 	const allOddIds = $derived([
 		...(main1x2?.odds.map(o => o.event_odd_id) ?? []),
