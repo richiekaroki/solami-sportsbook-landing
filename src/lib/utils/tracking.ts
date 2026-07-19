@@ -1,5 +1,5 @@
 /**
- * Solami Analytics — stub layer
+ * WAM Analytics — stub layer
  * Ready to connect to GA4 / PostHog / Meta Pixel / TikTok Ads
  *
  * Usage:
@@ -25,7 +25,7 @@ function emit(event: string, props: Record<string, unknown> = {}): void {
 	window.fbq?.('trackCustom', event, props);
 	// Dev log
 	if (import.meta.env.DEV) {
-		console.info(`[Solami Analytics] ${event}`, props);
+		console.info(`[WAM Analytics] ${event}`, props);
 	}
 }
 
@@ -35,10 +35,6 @@ export function trackCTA(label: string, location?: string): void {
 
 export function trackOddsClick(matchId: number, market: string, outcome: string, odds: number): void {
 	emit('odds_click', { match_id: matchId, market, outcome, odds });
-}
-
-export function trackBetslipOpen(trigger: 'floating_cart' | 'header' | 'cta'): void {
-	emit('betslip_open', { trigger });
 }
 
 export function trackBetPlaced(count: number, totalOdds: number, stake: number, payout: number): void {

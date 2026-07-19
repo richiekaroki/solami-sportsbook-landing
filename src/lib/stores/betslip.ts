@@ -2,18 +2,46 @@ import { writable, derived, get } from 'svelte/store';
 import type { BetSelection } from '$lib/types';
 import { calcAccaOdds, calcPotentialWin, calcKenyaTax } from '$lib/utils/odds-logic';
 
-const MIN_STAKE = 10;
-const MAX_STAKE = 500_000;
+const MIN_STAKE      = 10;
+const MAX_STAKE      = 500_000;
 const MAX_SELECTIONS = 20;
+const STORAGE_KEY    = 'wam_betslip';
+
+/** Read saved selections from localStorage (SSR-safe) */
+function loadFromStorage(): Map<number, BetSelection> {
+	if (typeof localStorage === 'undefined') return new Map();
+	try {
+		const raw = localStorage.getItem(STORAGE_KEY);
+		if (!raw) return new Map();
+		const entries: [number, BetSelection][] = JSON.parse(raw);
+		return new Map(entries);
+	} catch {
+		return new Map();
+	}
+}
+
+/** Persist current map to localStorage */
+function saveToStorage(map: Map<number, BetSelection>): void {
+	if (typeof localStorage === 'undefined') return;
+	try {
+		localStorage.setItem(STORAGE_KEY, JSON.stringify([...map.entries()]));
+	} catch {
+		// Storage quota exceeded or private browsing — fail silently
+	}
+}
 
 function createBetSlipStore() {
-	const store = writable<Map<number, BetSelection>>(new Map());
+	const store = writable<Map<number, BetSelection>>(loadFromStorage());
 	const { subscribe, update, set } = store;
+
+	// Persist every change to localStorage
+	subscribe((map) => saveToStorage(map));
 
 	return {
 		subscribe,
 
-		toggle(selection: BetSelection) {
+		toggle(selection: BetSelection): boolean {
+			let added = false;
 			update((current) => {
 				const next = new Map(current);
 				if (next.has(selection.oddId)) {
@@ -27,9 +55,11 @@ function createBetSlipStore() {
 						}
 					}
 					next.set(selection.oddId, selection);
+					added = true;
 				}
 				return next;
 			});
+			return added;
 		},
 
 		remove(oddId: number) {
@@ -40,7 +70,9 @@ function createBetSlipStore() {
 			});
 		},
 
-		clear() { set(new Map()); },
+		clear() {
+			set(new Map());
+		},
 
 		has(oddId: number): boolean {
 			return get(store).has(oddId);

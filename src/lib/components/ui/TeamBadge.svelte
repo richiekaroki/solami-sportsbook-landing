@@ -17,7 +17,7 @@
 
 <div
 	class="relative rounded-full flex items-center justify-center overflow-hidden shrink-0"
-	style="width:{size}px; height:{size}px; background:#1c1f29; border:1.5px solid rgba(255,255,255,0.08);"
+	style="width:{size}px; height:{size}px; background:var(--color-card); border:1.5px solid var(--color-border);"
 >
 	{#if badgeUrl && !imgError}
 		<img

@@ -34,29 +34,9 @@ export function calcKenyaTax(stake: number, totalOdds: number): {
 	return { excise, netStake, grossWin, wht, netPayout };
 }
 
-export function formatAccaOdds(odds: number): string {
-	return `x${odds.toFixed(2)}`;
-}
-
 /** Proportional "bets placed" count — bigger matches get more activity */
 export function estimateBetCount(totalMarkets: number): string {
-	const base  = Math.round(totalMarkets * 18 + Math.random() * 40);
+	const base = totalMarkets * 18 + 42;
 	if (base >= 1000) return `${(base / 1000).toFixed(1)}k`;
 	return base.toString();
-}
-
-const TEAM_EMOJI: Record<string, string> = {
-	'Real Madrid':                '⚪', 'FC Barcelona':           '🔵',
-	'Atletico Madrid':            '🔴', 'Bayern Munich':          '🔴',
-	'Arsenal FC':                 '🔴', 'Liverpool FC':           '🔴',
-	'Paris Saint-Germain':        '🔵', 'Sporting CP':            '🟢',
-	'Athletic Bilbao':            '🔴', 'Villarreal CF':          '🟡',
-	'Real Betis Seville':         '🟢', 'Espanyol Barcelona':     '🔵',
-	'Real Sociedad San Sebastian':'🔵', 'Levante UD':             '🟠',
-	'RCD Mallorca':               '🟡', 'Rayo Vallecano':         '⚪',
-	'Deportivo Alaves':           '🔵', 'CA Osasuna':             '🔴',
-	'Girona FC':                  '🔴',
-};
-export function getTeamEmoji(name: string): string {
-	return TEAM_EMOJI[name] ?? '⚽';
 }

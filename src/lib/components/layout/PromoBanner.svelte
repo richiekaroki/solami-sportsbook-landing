@@ -7,9 +7,9 @@
 			headline: '100% up to\nKSh 5,000',
 			sub:      'on your first deposit',
 			accent:   '#22c55e',
-			bg:       'linear-gradient(135deg, #0a1f12 0%, #071510 100%)',
+			bg:       'linear-gradient(160deg, #0a1f12 0%, #071510 100%)',
 			border:   'rgba(34,197,94,0.2)',
-			emoji:    '🏃',
+			shape:    'circle',
 			badge:    'NEW',
 		},
 		{
@@ -17,9 +17,9 @@
 			headline: 'Cash out early\non a 2-goal lead',
 			sub:      '20+ point lead in basketball',
 			accent:   '#60a5fa',
-			bg:       'linear-gradient(135deg, #0a1225 0%, #06091a 100%)',
+			bg:       'linear-gradient(145deg, #0a1225 0%, #06091a 100%)',
 			border:   'rgba(96,165,250,0.2)',
-			emoji:    '⚡',
+			shape:    'bolt',
 			badge:    'HOT',
 		},
 		{
@@ -27,9 +27,9 @@
 			headline: 'Bet KSh 500\nGet KSh 500',
 			sub:      'Every Friday for loyal members',
 			accent:   '#f5c842',
-			bg:       'linear-gradient(135deg, #1a1408 0%, #120e05 100%)',
+			bg:       'linear-gradient(155deg, #1a1408 0%, #120e05 100%)',
 			border:   'rgba(245,200,66,0.2)',
-			emoji:    '🎯',
+			shape:    'diamond',
 			badge:    'WEEKLY',
 		},
 	];
@@ -39,12 +39,13 @@
 	{#each banners as b, i}
 		<button
 			onclick={() => (active = i)}
+			aria-label="{b.badge}: {b.tag}"
+			aria-pressed={i === active}
 			class="relative rounded-xl px-4 py-3.5 text-left overflow-hidden transition-all duration-200"
 			style="
 				background:{b.bg};
 				border:1px solid {i === active ? b.border : 'rgba(255,255,255,0.05)'};
 				transform:{i === active ? 'translateY(-1px)' : 'none'};
-				box-shadow:{i === active ? `0 8px 24px rgba(0,0,0,0.3)` : 'none'};
 			"
 		>
 			<!-- Badge -->
@@ -61,9 +62,16 @@
 			</div>
 			<div class="text-[10px]" style="color:rgba(255,255,255,0.4);">{b.sub}</div>
 
-			<!-- Large emoji watermark -->
-			<div class="absolute -bottom-2 -right-1 text-[48px] opacity-[0.12] pointer-events-none select-none leading-none">
-				{b.emoji}
+			<!-- Geometric watermark -->
+			<div class="absolute -bottom-2 -right-1 pointer-events-none select-none leading-none"
+				style="width:48px; height:48px; opacity:0.12;">
+				{#if b.shape === 'circle'}
+					<div class="w-full h-full rounded-full" style="border:3px solid {b.accent};"></div>
+				{:else if b.shape === 'bolt'}
+					<div class="w-full h-full" style="clip-path:polygon(50% 0%, 0% 45%, 38% 45%, 30% 100%, 100% 50%, 62% 50%); background:{b.accent};"></div>
+				{:else}
+					<div class="w-full h-full" style="clip-path:polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); background:{b.accent};"></div>
+				{/if}
 			</div>
 
 			<!-- Active indicator bar -->
