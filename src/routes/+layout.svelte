@@ -3,10 +3,11 @@
 	import Header    from '$lib/components/layout/Header.svelte';
 	import AuthModal from '$lib/components/ui/AuthModal.svelte';
 	import Toast     from '$lib/components/ui/Toast.svelte';
-	import { inject } from '@vercel/analytics';
+	import { dev } from '$app/environment';
+	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
 
-	inject();
+	injectAnalytics({ mode: dev ? 'development' : 'production' });
 	injectSpeedInsights();
 
 	let { children } = $props();
