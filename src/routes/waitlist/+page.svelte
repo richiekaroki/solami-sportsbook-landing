@@ -3,18 +3,24 @@
 	import { formatKEPhone } from '$lib/utils/formatters';
 	import { Rocket, Crosshair, CheckCircle } from 'lucide-svelte';
 
-	let phoneRaw  = $state('');
+	let phoneRaw = $state('');
 	let submitted = $state(false);
-	let loading   = $state(false);
+	let loading = $state(false);
 
-	const phone     = $derived(formatKEPhone(phoneRaw));
-	const phoneValid= $derived(phoneRaw.replace(/\D/g,'').length === 10 && (phoneRaw.startsWith('07') || phoneRaw.startsWith('01')));
+	const phone = $derived(formatKEPhone(phoneRaw));
+	const phoneValid = $derived(
+		phoneRaw.replace(/\D/g, '').length === 10 &&
+			(phoneRaw.startsWith('07') || phoneRaw.startsWith('01'))
+	);
 
 	function handleSubmit() {
 		if (!phoneValid || loading) return;
 		loading = true;
 		trackSignupIntent('waitlist_page');
-		setTimeout(() => { loading = false; submitted = true; }, 1400);
+		setTimeout(() => {
+			loading = false;
+			submitted = true;
+		}, 1400);
 	}
 </script>
 
@@ -22,23 +28,32 @@
 	<title>WAM — Join the Waitlist</title>
 </svelte:head>
 
-<main class="min-h-screen flex flex-col items-center justify-center px-4 py-16"
+<main
+	class="min-h-screen flex flex-col items-center justify-center px-4 py-16"
 	style="background:var(--color-nav);"
-	id="main-content">
-
+	id="main-content"
+>
 	<a href="/" class="flex items-center gap-2 mb-10">
 		<span class="w-2.5 h-2.5 rounded-full" style="background:var(--color-gold);"></span>
-		<span class="font-display text-[24px] tracking-[3px] leading-none" style="color:var(--color-text);">WAM</span>
+		<span
+			class="font-display text-[24px] tracking-[3px] leading-none"
+			style="color:var(--color-text);">WAM</span
+		>
 	</a>
 
 	{#if !submitted}
 		<div class="w-full max-w-[420px] text-center">
-			<div class="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[1.5px] px-3 py-1.5 rounded-full mb-5"
-				style="background:var(--color-live-soft); border:1px solid rgba(34,197,94,0.18); color:var(--color-green);">
+			<div
+				class="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[1.5px] px-3 py-1.5 rounded-full mb-5"
+				style="background:var(--color-live-soft); border:1px solid rgba(34,197,94,0.18); color:var(--color-green);"
+			>
 				<Rocket size={12} />
 				Early Access
 			</div>
-			<h1 class="font-display leading-none tracking-[1px] mb-3" style="font-size:var(--text-display); color:var(--color-text);">
+			<h1
+				class="font-display leading-none tracking-[1px] mb-3"
+				style="font-size:var(--text-display); color:var(--color-text);"
+			>
 				GET IN EARLY<br /><span style="color:var(--color-gold);">+ KSH 500 FREE</span>
 			</h1>
 			<p class="text-[14px] mb-8 leading-relaxed" style="color:var(--color-text-dim);">
@@ -47,9 +62,15 @@
 			</p>
 
 			<div class="flex flex-col gap-3 mb-4">
-				<div class="flex items-center gap-2 rounded-2xl px-4 py-3.5"
-					style="background:var(--color-card); border:1px solid {phoneValid ? 'rgba(34,197,94,0.35)' : 'var(--color-border)'};">
-					<span class="text-[13px] font-mono shrink-0" style="color:var(--color-text-muted);">+254</span>
+				<div
+					class="flex items-center gap-2 rounded-2xl px-4 py-3.5"
+					style="background:var(--color-card); border:1px solid {phoneValid
+						? 'rgba(34,197,94,0.35)'
+						: 'var(--color-border)'};"
+				>
+					<span class="text-[13px] font-mono shrink-0" style="color:var(--color-text-muted);"
+						>+254</span
+					>
 					<input
 						type="tel"
 						bind:value={phoneRaw}
@@ -76,7 +97,10 @@
 					"
 				>
 					{#if loading}
-						<span class="w-4 h-4 rounded-full border-2 border-t-transparent" style="border-color:var(--color-nav); border-top-color:transparent; animation:spin 0.7s linear infinite;"></span>
+						<span
+							class="w-4 h-4 rounded-full border-2 border-t-transparent"
+							style="border-color:var(--color-nav); border-top-color:transparent; animation:spin 0.7s linear infinite;"
+						></span>
 						Joining...
 					{:else}
 						<Crosshair size={16} />
@@ -92,26 +116,51 @@
 		</div>
 	{:else}
 		<div class="w-full max-w-[360px] text-center animate-slide-up">
-			<div class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5"
-				style="background:var(--color-live-soft); border:2px solid rgba(34,197,94,0.2);">
+			<div
+				class="w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-5"
+				style="background:var(--color-live-soft); border:2px solid rgba(34,197,94,0.2);"
+			>
 				<Crosshair size={32} style="color:var(--color-green);" />
 			</div>
-			<div class="font-display tracking-[2px] mb-2" style="font-size:var(--text-title); color:var(--color-text);">YOU'RE IN!</div>
+			<div
+				class="font-display tracking-[2px] mb-2"
+				style="font-size:var(--text-title); color:var(--color-text);"
+			>
+				YOU'RE IN!
+			</div>
 			<p class="text-[14px] mb-6" style="color:var(--color-text-dim);">
-				We'll WhatsApp you on <strong style="color:var(--color-text);">{phone}</strong><br />when WAM launches.
+				We'll WhatsApp you on <strong style="color:var(--color-text);">{phone}</strong><br />when
+				WAM launches.
 			</p>
-			<div class="rounded-2xl p-4 mb-6" style="background:rgba(34,197,94,0.06); border:1px solid rgba(34,197,94,0.15);">
-				<div class="text-[13px] font-bold mb-1 flex items-center gap-1.5" style="color:var(--color-green);">
+			<div
+				class="rounded-2xl p-4 mb-6"
+				style="background:rgba(34,197,94,0.06); border:1px solid rgba(34,197,94,0.15);"
+			>
+				<div
+					class="text-[13px] font-bold mb-1 flex items-center gap-1.5"
+					style="color:var(--color-green);"
+				>
 					<CheckCircle size={14} />
 					KSh 500 Bonus Reserved
 				</div>
-				<div class="text-[11px]" style="color:rgba(34,197,94,0.55);">Your bonus will be applied automatically on first deposit via M-PESA.</div>
+				<div class="text-[11px]" style="color:rgba(34,197,94,0.55);">
+					Your bonus will be applied automatically on first deposit via M-PESA.
+				</div>
 			</div>
-			<a href="/" class="text-[13px] font-semibold" style="color:var(--color-gold);">← Back to live odds</a>
+			<a href="/" class="text-[13px] font-semibold" style="color:var(--color-gold);"
+				>← Back to live odds</a
+			>
 		</div>
 	{/if}
 </main>
 
 <style>
-	@keyframes spin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
+	@keyframes spin {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
 </style>

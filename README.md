@@ -9,22 +9,22 @@ A production-grade sports betting landing page built as a frontend technical ass
 
 ## Screenshots
 
-| Desktop (1440×900) | Mobile (390×844) |
-|---|---|
+| Desktop (1440×900)                | Mobile (390×844)                |
+| --------------------------------- | ------------------------------- |
 | ![Desktop](test-desktop-full.png) | ![Mobile](test-mobile-full.png) |
 
 ---
 
 ## Tech Stack
 
-| Layer         | Choice                              |
-| ------------- | ----------------------------------- |
-| Framework     | SvelteKit 2 + Svelte 5 (Runes mode) |
-| Language      | TypeScript                          |
-| Styling       | Tailwind CSS v4 + CSS custom properties |
-| Build tool    | Vite 8 (Rolldown)                   |
-| Icons         | Lucide Svelte                       |
-| Date handling | date-fns                            |
+| Layer         | Choice                                          |
+| ------------- | ----------------------------------------------- |
+| Framework     | SvelteKit 2 + Svelte 5 (Runes mode)             |
+| Language      | TypeScript                                      |
+| Styling       | Tailwind CSS v4 + CSS custom properties         |
+| Build tool    | Vite 8 (Rolldown)                               |
+| Icons         | Lucide Svelte                                   |
+| Date handling | date-fns                                        |
 | Fonts         | Satoshi (Fontshare), Bebas Neue, JetBrains Mono |
 | Deployment    | Vercel (adapter-auto) / Static (adapter-static) |
 
@@ -167,23 +167,23 @@ node test-visual.cjs
 
 ### Test Results (26/28 passed)
 
-| Suite | Result | Notes |
-|-------|--------|-------|
-| Desktop (1440×900) | 15/15 ✅ | Hero, odds, search, toast, a11y, nav |
-| Mobile (390×844) | 9/9 ✅ | Hamburger, betslip sheet, confirm dialog, bet placed |
-| Keyboard Navigation | 2/4 | Enter ✅, Focus ✅ — ArrowRight/Down are Playwright headless limitation |
+| Suite               | Result   | Notes                                                                   |
+| ------------------- | -------- | ----------------------------------------------------------------------- |
+| Desktop (1440×900)  | 15/15 ✅ | Hero, odds, search, toast, a11y, nav                                    |
+| Mobile (390×844)    | 9/9 ✅   | Hamburger, betslip sheet, confirm dialog, bet placed                    |
+| Keyboard Navigation | 2/4      | Enter ✅, Focus ✅ — ArrowRight/Down are Playwright headless limitation |
 
 ---
 
 ## Keyboard Shortcuts
 
-| Key | Action |
-|-----|--------|
-| `←→` | Navigate between odds within a match row |
-| `↑↓` | Navigate between match rows |
-| `Enter` | Toggle odds selection |
-| `1-4` | Quick-set stake (KSh 50 / 100 / 200 / 500) |
-| `Esc` | Close betslip sheet or confirm dialog |
+| Key     | Action                                     |
+| ------- | ------------------------------------------ |
+| `←→`    | Navigate between odds within a match row   |
+| `↑↓`    | Navigate between match rows                |
+| `Enter` | Toggle odds selection                      |
+| `1-4`   | Quick-set stake (KSh 50 / 100 / 200 / 500) |
+| `Esc`   | Close betslip sheet or confirm dialog      |
 
 ---
 

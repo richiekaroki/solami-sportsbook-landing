@@ -2,10 +2,10 @@ import { writable, derived, get } from 'svelte/store';
 import type { BetSelection } from '$lib/types';
 import { calcAccaOdds, calcPotentialWin, calcKenyaTax } from '$lib/utils/odds-logic';
 
-const MIN_STAKE      = 10;
-const MAX_STAKE      = 500_000;
+const MIN_STAKE = 10;
+const MAX_STAKE = 500_000;
 const MAX_SELECTIONS = 20;
-const STORAGE_KEY    = 'wam_betslip';
+const STORAGE_KEY = 'wam_betslip';
 
 /** Read saved selections from localStorage (SSR-safe) */
 function loadFromStorage(): Map<number, BetSelection> {
@@ -80,12 +80,16 @@ function createBetSlipStore() {
 	};
 }
 
-export const betSlip        = createBetSlipStore();
-export const selections     = derived(betSlip, ($m) => [...$m.values()]);
+export const betSlip = createBetSlipStore();
+export const selections = derived(betSlip, ($m) => [...$m.values()]);
 export const selectionCount = derived(betSlip, ($m) => $m.size);
-export const totalOdds      = derived(selections, ($s) => $s.length ? calcAccaOdds($s.map(s => s.odds)) : 0);
-export const stake          = writable<number>(100);
-export const potentialWin   = derived([totalOdds, stake], ([$o, $s]) => $o > 0 ? calcPotentialWin($s, $o) : 0);
+export const totalOdds = derived(selections, ($s) =>
+	$s.length ? calcAccaOdds($s.map((s) => s.odds)) : 0
+);
+export const stake = writable<number>(100);
+export const potentialWin = derived([totalOdds, stake], ([$o, $s]) =>
+	$o > 0 ? calcPotentialWin($s, $o) : 0
+);
 
 /** Full Kenya tax breakdown — drives betslip payout display */
 export const taxBreakdown = derived([totalOdds, stake], ([$o, $s]) => {

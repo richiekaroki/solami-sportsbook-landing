@@ -19,17 +19,20 @@ export function calcPotentialWin(stake: number, totalOdds: number): number {
  * - Excise duty: 7.5% on stake (deducted before bet is placed)
  * - Withholding tax (WHT): 20% on gross winnings
  */
-export function calcKenyaTax(stake: number, totalOdds: number): {
-	excise:      number;
-	netStake:    number;
-	grossWin:    number;
-	wht:         number;
-	netPayout:   number;
+export function calcKenyaTax(
+	stake: number,
+	totalOdds: number
+): {
+	excise: number;
+	netStake: number;
+	grossWin: number;
+	wht: number;
+	netPayout: number;
 } {
-	const excise    = stake * 0.075;
-	const netStake  = stake - excise;
-	const grossWin  = netStake * totalOdds;
-	const wht       = grossWin * 0.20;
+	const excise = stake * 0.075;
+	const netStake = stake - excise;
+	const grossWin = netStake * totalOdds;
+	const wht = grossWin * 0.2;
 	const netPayout = grossWin - wht;
 	return { excise, netStake, grossWin, wht, netPayout };
 }

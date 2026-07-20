@@ -9,7 +9,7 @@
 	let { name, size = 40 }: Props = $props();
 
 	const badgeUrl = $derived(getTeamBadgeUrl(name));
-	const color    = $derived(getTeamColor(name));
+	const color = $derived(getTeamColor(name));
 	const initials = $derived(getTeamInitials(name));
 
 	let imgError = $state(false);

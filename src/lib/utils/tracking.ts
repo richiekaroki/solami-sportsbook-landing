@@ -33,12 +33,27 @@ export function trackCTA(label: string, location?: string): void {
 	emit('cta_click', { label, location });
 }
 
-export function trackOddsClick(matchId: number, market: string, outcome: string, odds: number): void {
+export function trackOddsClick(
+	matchId: number,
+	market: string,
+	outcome: string,
+	odds: number
+): void {
 	emit('odds_click', { match_id: matchId, market, outcome, odds });
 }
 
-export function trackBetPlaced(count: number, totalOdds: number, stake: number, payout: number): void {
-	emit('bet_placed', { selection_count: count, total_odds: totalOdds, stake, potential_payout: payout });
+export function trackBetPlaced(
+	count: number,
+	totalOdds: number,
+	stake: number,
+	payout: number
+): void {
+	emit('bet_placed', {
+		selection_count: count,
+		total_odds: totalOdds,
+		stake,
+		potential_payout: payout
+	});
 }
 
 export function trackSignupIntent(source: string): void {

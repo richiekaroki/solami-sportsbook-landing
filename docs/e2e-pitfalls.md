@@ -7,6 +7,7 @@ Common Playwright/SvelteKit pitfalls encountered while building this test suite,
 ## 1. Strict Mode Violations (Multiple Matches)
 
 **Symptom:**
+
 ```
 strict mode violation: locator(...) resolved to 2 elements
 ```
@@ -59,7 +60,7 @@ const desc = await page.locator('meta[name="description"]').first().getAttribute
 
 ## 2. Locator Re-evaluation After Click
 
-**Symptom:** Test clicks a button, then assertion checks the same locator — but the locator now resolves to a *different* element.
+**Symptom:** Test clicks a button, then assertion checks the same locator — but the locator now resolves to a _different_ element.
 
 ```ts
 // BAD — after click, this button becomes aria-pressed="true",
@@ -139,14 +140,14 @@ await page.locator('#featured button[aria-pressed="false"]').nth(0).click(); // 
 ```ts
 // GOOD — helper function adds from different rows/markets
 async function addMultipleRowSelections(page: Page, count: number) {
-  const rows = page.locator('[role="row"]');
-  for (let i = 0; i < count; i++) {
-    const btn = rows.nth(i).locator('button[aria-pressed="false"]').first();
-    if (await btn.isVisible()) {
-      await btn.click();
-      await page.waitForTimeout(200);
-    }
-  }
+	const rows = page.locator('[role="row"]');
+	for (let i = 0; i < count; i++) {
+		const btn = rows.nth(i).locator('button[aria-pressed="false"]').first();
+		if (await btn.isVisible()) {
+			await btn.click();
+			await page.waitForTimeout(200);
+		}
+	}
 }
 ```
 
@@ -185,6 +186,7 @@ await page.getByRole('button', { name: 'Log In' }).click(); // tab switch
 The Header component has a mobile search toggle that renders a search input in a fixed overlay. The Sidebar component has a desktop search input. Both have the same `aria-label` and `placeholder`.
 
 **At 375px viewport:**
+
 - Sidebar search: in DOM but hidden via `hidden xl:flex` on parent
 - Mobile search: conditionally rendered, visible
 
@@ -216,11 +218,13 @@ await page.keyboard.press('Escape');
 ## 10. OOM Crashes with V8
 
 **Symptom:**
+
 ```
 Fatal process out of memory: Zone
 ```
 
 Running 160+ tests sequentially in a single Chromium process exhausts V8 memory. This causes:
+
 - Random test failures (cascading from corrupted state)
 - Fatal crashes mid-test
 - Tests that pass individually but fail in the full suite
@@ -234,6 +238,7 @@ Running 160+ tests sequentially in a single Chromium process exhausts V8 memory.
 5. **Increase Node.js memory (if needed):** `NODE_OPTIONS=--max-old-space-size=4096`
 
 **Current config:**
+
 ```ts
 {
   workers: 1,
@@ -263,11 +268,11 @@ CSS class selectors like `.hidden.xl\\:flex` work unreliably in Playwright becau
 
 ```ts
 // Fragile — CSS selector for Tailwind responsive class
-page.locator('.hidden.xl\\:flex')
+page.locator('.hidden.xl\\:flex');
 
 // Better — use semantic selectors
-page.getByRole('button', { name: '...' })
-page.locator('.xl\\:hidden') // when you need the mobile container
+page.getByRole('button', { name: '...' });
+page.locator('.xl\\:hidden'); // when you need the mobile container
 ```
 
 ---
@@ -294,7 +299,7 @@ test.describe('My Tests', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(BASE, { waitUntil: 'networkidle' });
   });
-  
+
   test('test 1', async ({ page }) => { ... });
   test('test 2', async ({ page }) => { ... }); // fresh page
 });
@@ -304,8 +309,8 @@ test.describe('My Tests', () => {
 
 ```ts
 test.beforeEach(async ({ page }) => {
-  await page.goto(BASE, { waitUntil: 'networkidle' });
-  await page.setViewportSize({ width: 375, height: 812 });
+	await page.goto(BASE, { waitUntil: 'networkidle' });
+	await page.setViewportSize({ width: 375, height: 812 });
 });
 ```
 
@@ -314,6 +319,7 @@ test.beforeEach(async ({ page }) => {
 ## 15. `networkidle` vs `load`
 
 `waitUntil: 'networkidle'` waits for no network activity for 500ms. This is important for the WAM app because:
+
 - Live odds simulation starts via `setInterval` on mount
 - JSON data is loaded statically but components hydrate asynchronously
 - Toast/notification stores initialize after mount
@@ -340,19 +346,19 @@ await dialog.getByRole('button', { name: /Confirm/ }).click();
 
 ## Quick Reference: Selector Strategy
 
-| Scenario | Selector |
-|---|---|
-| Button by visible name | `getByRole('button', { name: 'Submit' })` |
-| Button by partial name | `getByRole('button', { name: /Join/ })` |
-| Text content | `getByText('some text')` |
-| Exact text | `getByText('Sports', { exact: true })` |
-| Heading | `getByRole('heading', { name: 'Sports' })` |
-| Input by placeholder | `getByPlaceholder('Search teams...')` |
-| Input by aria-label | `getByRole('textbox', { name: 'Search teams' })` |
-| Link | `getByRole('link', { name: 'Aviator' })` |
-| Scoped to section | `page.locator('footer').getByText('...')` |
+| Scenario                 | Selector                                            |
+| ------------------------ | --------------------------------------------------- |
+| Button by visible name   | `getByRole('button', { name: 'Submit' })`           |
+| Button by partial name   | `getByRole('button', { name: /Join/ })`             |
+| Text content             | `getByText('some text')`                            |
+| Exact text               | `getByText('Sports', { exact: true })`              |
+| Heading                  | `getByRole('heading', { name: 'Sports' })`          |
+| Input by placeholder     | `getByPlaceholder('Search teams...')`               |
+| Input by aria-label      | `getByRole('textbox', { name: 'Search teams' })`    |
+| Link                     | `getByRole('link', { name: 'Aviator' })`            |
+| Scoped to section        | `page.locator('footer').getByText('...')`           |
 | Scoped to visible mobile | `page.locator('.xl\\:hidden.fixed.top-\\[56px\\]')` |
-| Odds button (stable) | `page.locator('#featured button[aria-pressed]')` |
-| Match row | `page.locator('[role="row"]')` |
-| First of many | `.first()` / `.nth(0)` |
-| Last of many | `.last()` |
+| Odds button (stable)     | `page.locator('#featured button[aria-pressed]')`    |
+| Match row                | `page.locator('[role="row"]')`                      |
+| First of many            | `.first()` / `.nth(0)`                              |
+| Last of many             | `.last()`                                           |

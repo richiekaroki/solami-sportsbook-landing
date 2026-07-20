@@ -15,10 +15,11 @@
 	No betslip panel on this page — game takes the full remaining width.
 -->
 <main class="flex" style="height: calc(100vh - 56px);" id="main-content">
-
 	<!-- Left sidebar — same as sports page -->
-	<div class="hidden xl:flex flex-col shrink-0 sticky top-[56px] self-start h-[calc(100vh-56px)] overflow-hidden"
-		style="width:240px; background:var(--color-nav); border-right:1px solid rgba(255,255,255,0.07);">
+	<div
+		class="hidden xl:flex flex-col shrink-0 sticky top-[56px] self-start h-[calc(100vh-56px)] overflow-hidden"
+		style="width:240px; background:var(--color-nav); border-right:1px solid rgba(255,255,255,0.07);"
+	>
 		<Sidebar />
 	</div>
 
@@ -31,5 +32,4 @@
 		allow="fullscreen; autoplay; encrypted-media"
 		allowfullscreen
 	></iframe>
-
 </main>
