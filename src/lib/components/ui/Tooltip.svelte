@@ -31,8 +31,8 @@
 	{#if show}
 		<span
 			id="tooltip-content"
-			class="absolute bottom-full left-1/2 -translate-x-1/2 mb-1.5 px-2.5 py-1.5 rounded-lg text-[10px] leading-snug font-medium whitespace-nowrap z-10 pointer-events-none animate-fade-in"
-			style="background:var(--color-card); border:1px solid var(--color-border-light); color:var(--color-text);"
+			class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 rounded-lg text-[11px] leading-snug font-medium whitespace-nowrap z-10 pointer-events-none animate-fade-in"
+			style="background:#1a1e2e; border:1px solid rgba(255,255,255,0.12); color:var(--color-text); box-shadow:0 4px 16px rgba(0,0,0,0.4);"
 			role="tooltip">{text}</span
 		>
 	{/if}

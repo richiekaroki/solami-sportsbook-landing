@@ -38,14 +38,14 @@
 		<div class="flex-1 min-w-0">
 			<div class="flex items-baseline gap-2">
 				<span
-					class="font-display text-[28px] tracking-[1px] leading-none"
+					class="font-display text-[32px] tracking-[0.5px] leading-none"
 					style="color:var(--color-gold);">4 min</span
 				>
 				<span class="text-[11px] font-semibold" style="color:var(--color-text-muted);"
 					>avg. withdrawal</span
 				>
 			</div>
-			<div class="text-[10px] mt-1" style="color:var(--color-text-muted);">
+			<div class="text-[11px] mt-1" style="color:var(--color-text-muted);">
 				Paid directly to M-PESA. Most payouts complete before the final whistle.
 			</div>
 		</div>

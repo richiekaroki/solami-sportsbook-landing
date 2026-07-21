@@ -3,7 +3,6 @@
 A production-grade sports betting landing page built as a frontend technical assessment for **WAM** — Kenya's emerging sportsbook platform.
 
 **Live demo:** https://wam-sportsbook-landing.vercel.app
-**Assessment brief:** Build a responsive landing page from an Adobe XD design using the provided `games.json` data file.
 
 ---
 
@@ -35,7 +34,7 @@ A production-grade sports betting landing page built as a frontend technical ass
 ### Sportsbook Core
 
 - **3-column layout** — left sidebar, scrollable match feed, sticky betslip panel
-- **Inline match rows** — 1X2 · Double Chance · GG/NG, all on one row
+- **Inline match rows** — 1X2 (wide 52px buttons) · Double Chance · GG/NG, all on one row
 - **Real team badges** — CDN crests for all teams with graceful fallback to coloured initials
 - **Live odds simulation** — random drift every 6s with ▲▼ direction indicators
 - **Market deduplication** — selecting a new 1X2 outcome replaces the previous pick
@@ -52,18 +51,21 @@ A production-grade sports betting landing page built as a frontend technical ass
 - **Pay via M-PESA** — primary CTA using M-PESA brand green
 - **Undo on removal** — 5-second undo window when removing selections
 - **Bet confirmation dialog** — review before placing with animated scale-in
+- **Popular picks** — empty bet slip shows popular bet suggestions
 
 ### Conversion & UX
 
 - **Hero section** — headline, live badge, M-PESA callout, asymmetric trust stat (dominant 100+ stat + secondary chips)
 - **"How to bet" guide** — 3-step guide with keyboard shortcut hints and odds movement legend
-- **Auth modal** — phone number validation (07/01 prefix), auto-formatting (`0712 345 678`), M-PESA field, password show/hide, loading state, animated success screen
+- **Auth modal** — phone number validation (07/01 prefix), auto-formatting (`0712 345 678`), M-PESA field, password show/hide, loading state, animated success screen. Shared via `authModalOpen` store.
 - **Trust section** — asymmetric layout: dominant 4 MIN stat card + 3 compact stat strips, testimonials, platform stats
 - **Mobile betslip** — floating cart button → slide-up bottom sheet (92dvh)
 - **Mobile search** — search icon toggles search input panel
 - **Mobile sticky CTA** — persistent Join Now strip in footer
 - **/waitlist route** — phone capture page with WhatsApp launch promise
-- **/aviator route** — Aviator game page
+- **/aviator route** — Aviator game "Coming Soon" page with feature preview
+- **Consolidated CTAs** — unified "Join Free — Claim KSh 500" across all surfaces
+- **2 promo banners** — Welcome Bonus + Weekly Free Bet (consolidated from 3)
 
 ### Accessibility (WCAG 2.1 AA)
 
@@ -76,7 +78,7 @@ A production-grade sports betting landing page built as a frontend technical ass
 - Min 44×44px touch targets on all buttons (WCAG 2.5.8)
 - Keyboard navigation: Arrow keys within match rows, Enter to select, 1-4 for quick stake
 - `prefers-reduced-motion` disables all animations
-- Betting term tooltips with `aria-describedby`
+- Betting term tooltips with `aria-describedby` and improved visibility (11px text, shadow)
 
 ### Analytics Readiness
 
@@ -98,22 +100,23 @@ src/
 │   │   │   └── ResponsibleGambling.svelte
 │   │   ├── features/              # Sportsbook realism engine
 │   │   │   ├── BetSlip.svelte           # Mobile bottom-sheet
-│   │   │   ├── BetSlipPanel.svelte      # Desktop sidebar panel
+│   │   │   ├── BetSlipPanel.svelte      # Desktop sidebar panel (popular picks empty state)
 │   │   │   ├── MatchRow.svelte          # Inline match row with keyboard nav
 │   │   │   ├── OddsGrid.svelte          # Featured match hero
-│   │   │   └── MarketButton.svelte      # 44×44px odds button
+│   │   │   └── MarketButton.svelte      # 44×44px (or 52px wide) odds button
 │   │   ├── layout/                # Structural shell
 │   │   │   ├── Header.svelte            # Glass morphism header
-│   │   │   ├── LeftSidebar.svelte       # Search + Aviator link
-│   │   │   ├── PromoBanner.svelte       # Rotating promotions
+│   │   │   ├── Sidebar.svelte           # Search + Aviator link
+│   │   │   ├── PromoBanner.svelte       # 2-column promo banners
 │   │   │   └── SportsNav.svelte         # Competition filter tabs
 │   │   └── ui/                    # Base elements
 │   │       ├── AuthModal.svelte         # Phone auth with validation
 │   │       ├── Badge.svelte             # Promo badge
 │   │       ├── TeamBadge.svelte         # CDN crest with initials fallback
 │   │       ├── Toast.svelte             # Notification with undo support
-│   │       └── Tooltip.svelte           # Betting term explainer
+│   │       └── Tooltip.svelte           # Betting term explainer (improved visibility)
 │   ├── stores/
+│   │   ├── auth.ts                # Shared auth modal state
 │   │   ├── betslip.ts             # Selections, tax breakdown, stake, payout
 │   │   ├── toast.ts               # Notification store with action callbacks
 │   │   └── search.ts              # Global search query
@@ -130,7 +133,7 @@ src/
 │   ├── +layout.ts                 # Static prerender config
 │   ├── +page.svelte               # Main landing page
 │   ├── aviator/
-│   │   └── +page.svelte           # Aviator game page
+│   │   └── +page.svelte           # Aviator Coming Soon page
 │   └── waitlist/
 │       └── +page.svelte           # Phone capture / waitlist page
 └── app.html                       # Shell with lang="en-KE"
@@ -157,21 +160,38 @@ npm run check      # TypeScript + Svelte type checking
 
 ## Testing
 
-Automated visual testing via Playwright:
+### E2E Tests (Playwright)
 
 ```bash
-npm install -D playwright
 npx playwright install chromium
-node test-visual.cjs
+npx playwright test
 ```
 
-### Test Results (26/28 passed)
+241 tests across 13 spec files:
 
-| Suite               | Result   | Notes                                                                   |
-| ------------------- | -------- | ----------------------------------------------------------------------- |
-| Desktop (1440×900)  | 15/15 ✅ | Hero, odds, search, toast, a11y, nav                                    |
-| Mobile (390×844)    | 9/9 ✅   | Hamburger, betslip sheet, confirm dialog, bet placed                    |
-| Keyboard Navigation | 2/4      | Enter ✅, Focus ✅ — ArrowRight/Down are Playwright headless limitation |
+| Suite                         | Tests | Notes                                       |
+| ----------------------------- | ----- | ------------------------------------------- |
+| auth.spec.ts                  | 33    | Auth modal flows, validation, accessibility |
+| betslip.spec.ts               | 25    | Selections, stake, tax, confirm             |
+| odds-match.spec.ts            | 26    | Odds grid, match rows, keyboard nav         |
+| navigation.spec.ts            | 19    | Sports nav, search, sidebar                 |
+| content-sections.spec.ts      | 34    | Hero, trust, promo, footer, how-to-bet      |
+| responsive.spec.ts            | 27    | Responsive layout, SEO, accessibility       |
+| routes.spec.ts                | 23    | /aviator + /waitlist route tests            |
+| keyboard-interactions.spec.ts | 5     | Quick-stake buttons on mobile               |
+| live-odds.spec.ts             | 8     | Live odds simulation toggle/deselect        |
+| tooltip.spec.ts               | 9     | Tooltip hover/focus/escape/aria             |
+| mobile-betslip.spec.ts        | 12    | Mobile bet slip sheet interactions          |
+| sections.spec.ts              | 13    | ReferAFriend + ResponsibleGambling          |
+| accessibility.spec.ts         | 8     | prefers-reduced-motion + TeamBadge fallback |
+
+### Visual Verification
+
+```bash
+node test-visual-verify.mjs
+```
+
+Takes screenshots of all pages (desktop + mobile) for visual review.
 
 ---
 
@@ -189,7 +209,7 @@ node test-visual.cjs
 
 ## Design System
 
-See [DESIGN.md](./DESIGN.md) for full design token documentation, component inventory, and accessibility scorecard.
+See [DESIGN.md](./DESIGN.md) for full design token documentation, component inventory, accessibility scorecard, and animation easing reference.
 
 ---
 
@@ -207,13 +227,18 @@ Original enhancements added beyond the brief:
 - `/waitlist` route for pre-launch lead capture
 - Undo-on-remove with 5-second timeout
 - Quick-stake keyboard shortcuts (1-4)
-- Betting term tooltips (1X2, DC, GG/NG)
+- Betting term tooltips (1X2, DC, GG/NG) with improved visibility
 - "How to bet" 3-step guide with keyboard hints
 - Loading skeleton with pulse animation
 - Asymmetric trust layout with dominant stat cards
 - Mobile search panel with shared store
 - `prefers-reduced-motion` support
 - WCAG 2.1 AA accessibility compliance
+- Shared auth modal state via Svelte store
+- Consolidated CTA copy ("Join Free — Claim KSh 500")
+- Popular bets empty state in bet slip
+- Enlarged 1X2 odds buttons (52px wide)
+- Refined typography and easing curves
 
 ---
 

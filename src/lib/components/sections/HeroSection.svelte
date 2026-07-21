@@ -24,21 +24,26 @@
 
 <div
 	class="relative overflow-hidden rounded-2xl mb-5"
-	style="background:linear-gradient(145deg, #0c1221 0%, #0e1628 40%, #0a0e18 100%); border:1px solid rgba(255,255,255,0.06);"
+	style="background:linear-gradient(150deg, #0c1424 0%, #0e1830 40%, #080d18 100%); border:1px solid rgba(255,255,255,0.06);"
 >
 	<!-- Ambient glow -->
 	<div class="pointer-events-none absolute inset-0 overflow-hidden">
 		<div
-			class="absolute -top-20 -left-16 w-80 h-80 rounded-full blur-[80px]"
-			style="background:radial-gradient(circle, rgba(240,192,64,0.10) 0%, transparent 65%);"
+			class="absolute -top-24 -left-20 w-96 h-96 rounded-full blur-[100px]"
+			style="background:radial-gradient(circle, rgba(240,192,64,0.10) 0%, transparent 60%);"
 		></div>
 		<div
-			class="absolute -bottom-16 right-0 w-56 h-56 rounded-full blur-[60px]"
-			style="background:radial-gradient(circle, rgba(34,197,94,0.07) 0%, transparent 65%);"
+			class="absolute -bottom-20 right-0 w-64 h-64 rounded-full blur-[80px]"
+			style="background:radial-gradient(circle, rgba(34,197,94,0.06) 0%, transparent 60%);"
+		></div>
+		<!-- Subtle noise texture -->
+		<div
+			class="absolute inset-0 opacity-[0.015]"
+			style="background-image:url('data:image/svg+xml,%3Csvg viewBox=%220 0 256 256%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%224%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23n)%22/%3E%3C/svg%3E');"
 		></div>
 	</div>
 
-	<div class="relative flex flex-col sm:flex-row items-center gap-6 px-6 py-7">
+	<div class="relative flex flex-col sm:flex-row items-center gap-6 px-6 py-8">
 		<div class="flex-1 min-w-0">
 			<div class="flex items-center gap-2 mb-4">
 				<span
@@ -51,7 +56,7 @@
 			</div>
 
 			<h1
-				class="font-display leading-[0.9] tracking-[2px] mb-3"
+				class="font-display leading-[0.88] tracking-[1px] mb-3"
 				style="font-size:var(--text-display); color:white; text-wrap:balance;"
 			>
 				BET ON EVERY<br />
@@ -59,7 +64,7 @@
 			</h1>
 
 			<p
-				class="text-[13px] mb-5 leading-relaxed max-w-[340px]"
+				class="text-[14px] mb-6 leading-relaxed max-w-[360px]"
 				style="color:var(--color-text-dim);"
 			>
 				LaLiga · Champions League · Premier League<br />
@@ -72,8 +77,8 @@
 						trackCTA('hero_join_now', 'hero_section');
 						onJoin();
 					}}
-					class="flex items-center gap-2 px-7 py-3 rounded-xl font-bold text-[14px] hover-lift cursor-pointer"
-					style="background:var(--color-gold); color:var(--color-nav); box-shadow:0 4px 24px rgba(240,192,64,0.28);"
+					class="flex items-center gap-2 px-7 py-3.5 rounded-xl font-bold text-[14px] hover-lift cursor-pointer"
+					style="background:var(--color-gold); color:var(--color-nav); box-shadow:0 4px 24px rgba(240,192,64,0.3);"
 				>
 					<Crosshair size={16} />
 					Join Free — Claim KSh 500
@@ -90,10 +95,10 @@
 		</div>
 
 		<!-- Asymmetric trust layout: dominant stat + secondary chips -->
-		<div class="shrink-0 w-full sm:w-auto sm:min-w-[230px] flex flex-col gap-2">
+		<div class="shrink-0 w-full sm:w-auto sm:min-w-[240px] flex flex-col gap-2.5">
 			<!-- Dominant stat -->
 			<div
-				class="flex items-center gap-3 px-4 py-3 rounded-xl"
+				class="flex items-center gap-3 px-4 py-3.5 rounded-xl"
 				style="background:var(--color-card); border:1px solid var(--color-border);"
 			>
 				<div
@@ -115,7 +120,7 @@
 			<div class="flex gap-2">
 				{#each trustChips as chip}
 					<div
-						class="flex-1 flex items-center gap-2 px-3 py-2 rounded-lg"
+						class="flex-1 flex items-center gap-2 px-3 py-2.5 rounded-lg"
 						style="background:var(--color-card); border:1px solid var(--color-border);"
 					>
 						<chip.icon size={13} style="color:{chip.accent}; flex-shrink:0;" />

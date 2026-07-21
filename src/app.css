@@ -4,21 +4,21 @@
 
 @theme {
 	/* ── Backgrounds ── */
-	--color-bg-base: #080a0f;
-	--color-bg-nav: #0c1221;
-	--color-bg-card: #111827;
+	--color-bg-base: #06080d;
+	--color-bg-nav: #0a0f1a;
+	--color-bg-card: #0f1525;
 
 	/* ── Aliases (shorthand for components) ── */
 	--color-nav: var(--color-bg-nav);
 	--color-card: var(--color-bg-card);
-	--color-card-hover: #1a2035;
+	--color-card-hover: #151d30;
 
 	/* ── Borders ── */
 	--color-border: rgba(255, 255, 255, 0.06);
 	--color-border-light: rgba(255, 255, 255, 0.1);
 
 	/* ── Text ── */
-	--color-text: #e8ecf4;
+	--color-text: #eaf0ff;
 	--color-text-dim: #8b95a8;
 	--color-text-muted: #5c6577;
 
@@ -40,12 +40,12 @@
 	--font-sans: 'Satoshi', sans-serif;
 
 	/* ── Type Scale (semantic tokens) ── */
-	--text-caption: 0.625rem; /* 10px — captions, fine print */
-	--text-small: 0.75rem; /* 12px — secondary labels */
-	--text-body: 0.875rem; /* 14px — body text, base */
-	--text-subhead: 1.125rem; /* 18px — subheadings, emphasis */
-	--text-title: 1.5rem; /* 24px — section titles */
-	--text-display: clamp(2.25rem, 6vw, 3.5rem); /* 36-56px — hero display */
+	--text-caption: 0.625rem; /* 10px */
+	--text-small: 0.75rem; /* 12px */
+	--text-body: 0.875rem; /* 14px */
+	--text-subhead: 1.125rem; /* 18px */
+	--text-title: 1.5rem; /* 24px */
+	--text-display: clamp(2.5rem, 6vw, 4rem); /* 40-64px */
 }
 
 @layer base {
@@ -87,7 +87,6 @@
 		color: var(--color-gold);
 	}
 
-	/* Improved focus ring */
 	:focus-visible {
 		outline: 2px solid var(--color-gold);
 		outline-offset: 2px;
@@ -120,7 +119,7 @@
 @keyframes slide-up {
 	from {
 		opacity: 0;
-		transform: translateY(20px);
+		transform: translateY(16px);
 	}
 	to {
 		opacity: 1;
@@ -130,7 +129,7 @@
 @keyframes slide-in-right {
 	from {
 		opacity: 0;
-		transform: translateX(16px);
+		transform: translateX(12px);
 	}
 	to {
 		opacity: 1;
@@ -148,7 +147,7 @@
 @keyframes toast-in {
 	from {
 		opacity: 0;
-		transform: translateY(12px) scale(0.95);
+		transform: translateY(8px) scale(0.96);
 	}
 	to {
 		opacity: 1;
@@ -158,31 +157,49 @@
 @keyframes scale-in {
 	from {
 		opacity: 0;
-		transform: scale(0.95);
+		transform: scale(0.96);
 	}
 	to {
 		opacity: 1;
 		transform: scale(1);
 	}
 }
+@keyframes shimmer {
+	0% {
+		background-position: -200% 0;
+	}
+	100% {
+		background-position: 200% 0;
+	}
+}
 
 .animate-slide-up {
-	animation: slide-up 0.3s cubic-bezier(0.2, 0, 0, 1) both;
+	animation: slide-up 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .animate-slide-in-right {
-	animation: slide-in-right 0.24s ease both;
+	animation: slide-in-right 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .animate-fade-in {
-	animation: fade-in 0.25s ease both;
+	animation: fade-in 0.3s ease both;
 }
 .animate-pulse-dot {
 	animation: pulse-dot 2s ease-in-out infinite;
 }
 .animate-toast-in {
-	animation: toast-in 0.24s ease both;
+	animation: toast-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 .animate-scale-in {
-	animation: scale-in 0.2s cubic-bezier(0.2, 0, 0, 1) both;
+	animation: scale-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.animate-shimmer {
+	background: linear-gradient(
+		90deg,
+		transparent 0%,
+		rgba(255, 255, 255, 0.04) 50%,
+		transparent 100%
+	);
+	background-size: 200% 100%;
+	animation: shimmer 1.5s ease-in-out infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -197,7 +214,8 @@
 	.animate-slide-in-right,
 	.animate-fade-in,
 	.animate-pulse-dot,
-	.animate-toast-in {
+	.animate-toast-in,
+	.animate-shimmer {
 		animation: none !important;
 	}
 	[style*='animation:spin'] {
@@ -215,12 +233,12 @@
 /* ── Interactive utility classes ── */
 .hover-lift {
 	transition:
-		transform 0.2s cubic-bezier(0.2, 0, 0, 1),
-		box-shadow 0.2s ease;
+		transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+		box-shadow 0.22s ease;
 }
 .hover-lift:hover {
 	transform: translateY(-2px);
-	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
 .hover-bg-subtle {
@@ -278,7 +296,7 @@
 
 .hover-slide-right {
 	transition:
-		transform 0.22s cubic-bezier(0.2, 0, 0, 1),
+		transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
 		border-color 0.22s ease;
 }
 .hover-slide-right:hover {
@@ -290,7 +308,7 @@
 	transition: background 0.15s ease;
 }
 .hover-row:hover {
-	background: rgba(255, 255, 255, 0.02);
+	background: rgba(255, 255, 255, 0.025);
 }
 
 .focus-ring-gold:focus-within {
@@ -313,8 +331,8 @@
 
 /* ── Glass morphism ── */
 .glass {
-	background: rgba(12, 18, 33, 0.72);
-	backdrop-filter: blur(12px) saturate(1.15);
+	background: rgba(10, 15, 26, 0.78);
+	backdrop-filter: blur(16px) saturate(1.2);
 	border: 1px solid rgba(255, 255, 255, 0.06);
 }
 

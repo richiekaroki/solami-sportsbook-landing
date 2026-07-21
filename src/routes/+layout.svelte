@@ -3,6 +3,7 @@
 	import Header from '$lib/components/layout/Header.svelte';
 	import AuthModal from '$lib/components/ui/AuthModal.svelte';
 	import Toast from '$lib/components/ui/Toast.svelte';
+	import { authModalOpen } from '$lib/stores/auth';
 	import { dev } from '$app/environment';
 	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 	import { injectSpeedInsights } from '@vercel/speed-insights/sveltekit';
@@ -12,9 +13,14 @@
 
 	let { children } = $props();
 	let authOpen = $state(false);
+
+	$effect(() => {
+		const unsub = authModalOpen.subscribe((v) => (authOpen = v));
+		return unsub;
+	});
 </script>
 
-<Header onJoin={() => (authOpen = true)} />
+<Header onJoin={() => authModalOpen.set(true)} />
 
 <a
 	href="#main-content"
@@ -28,5 +34,5 @@
 	{@render children()}
 </div>
 
-<AuthModal bind:open={authOpen} onClose={() => (authOpen = false)} />
+<AuthModal bind:open={authOpen} onClose={() => authModalOpen.set(false)} />
 <Toast />

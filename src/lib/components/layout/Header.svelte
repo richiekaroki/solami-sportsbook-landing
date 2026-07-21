@@ -71,9 +71,11 @@
 					aria-pressed={active}
 					class="nav-tab flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-[13px] font-semibold whitespace-nowrap shrink-0 cursor-pointer"
 					class:active
-					style="background:{active ? 'var(--color-green)' : 'transparent'}; color:{active
-						? '#fff'
-						: 'var(--color-text-dim)'};"
+					style="background:{active ? 'rgba(34,197,94,0.15)' : 'transparent'}; color:{active
+						? 'var(--color-green)'
+						: 'var(--color-text-dim)'}; border:1px solid {active
+						? 'rgba(34,197,94,0.25)'
+						: 'transparent'};"
 				>
 					<item.icon size={14} />
 					{item.label}
@@ -110,7 +112,7 @@
 				aria-label="Join now and claim KSh 500 bonus"
 				class="min-h-[44px] px-4 py-2 rounded-lg text-[13px] font-bold hover-lift cursor-pointer"
 				style="background:var(--color-gold); color:var(--color-nav); box-shadow:0 2px 12px rgba(240,192,64,0.25);"
-				>Join Now</button
+				>Join Free — Claim KSh 500</button
 			>
 		</div>
 	</div>
@@ -134,8 +136,12 @@
 					class="nav-tab flex items-center gap-1 px-3 py-1.5 rounded-lg text-[12px] font-semibold whitespace-nowrap shrink-0 cursor-pointer"
 					class:active
 					style="background:{active
+						? 'rgba(34,197,94,0.15)'
+						: 'rgba(255,255,255,0.05)'}; color:{active
 						? 'var(--color-green)'
-						: 'rgba(255,255,255,0.05)'}; color:{active ? '#fff' : 'var(--color-text-dim)'};"
+						: 'var(--color-text-dim)'}; border:1px solid {active
+						? 'rgba(34,197,94,0.25)'
+						: 'transparent'};"
 				>
 					<item.icon size={12} />
 					{item.label}
@@ -199,7 +205,8 @@
 			}}
 			aria-label="Join now and claim KSh 500 bonus"
 			class="w-full min-h-[44px] py-2.5 rounded-lg text-[14px] font-bold cursor-pointer"
-			style="background:var(--color-gold); color:var(--color-nav);">Join Now — Claim KSh 500</button
+			style="background:var(--color-gold); color:var(--color-nav);"
+			>Join Free — Claim KSh 500</button
 		>
 	</div>
 {/if}

@@ -62,17 +62,17 @@
 
 <div
 	class="relative overflow-hidden rounded-2xl"
-	style="background:linear-gradient(150deg, #0c1221 0%, #0e1628 40%, #0a0e18 100%); border:1px solid rgba(255,255,255,0.06);"
+	style="background:linear-gradient(155deg, #0c1424 0%, #0e1830 40%, #080d18 100%); border:1px solid rgba(255,255,255,0.06);"
 >
 	<!-- Ambient glows -->
 	<div class="pointer-events-none absolute inset-0">
 		<div
-			class="absolute top-0 left-1/4 w-80 h-44 rounded-full blur-[80px]"
-			style="background:radial-gradient(circle, rgba(240,192,64,0.08) 0%, transparent 65%);"
+			class="absolute top-0 left-1/4 w-96 h-48 rounded-full blur-[100px]"
+			style="background:radial-gradient(circle, rgba(240,192,64,0.08) 0%, transparent 60%);"
 		></div>
 		<div
-			class="absolute bottom-0 right-1/4 w-56 h-36 rounded-full blur-[60px]"
-			style="background:radial-gradient(circle, rgba(96,165,250,0.06) 0%, transparent 65%);"
+			class="absolute bottom-0 right-1/4 w-64 h-40 rounded-full blur-[80px]"
+			style="background:radial-gradient(circle, rgba(96,165,250,0.05) 0%, transparent 60%);"
 		></div>
 	</div>
 
@@ -118,8 +118,8 @@
 
 		<div class="flex flex-col items-center gap-2 shrink-0">
 			<span
-				class="font-display text-[40px] leading-none tracking-[3px]"
-				style="color:rgba(255,255,255,0.06);">VS</span
+				class="font-display text-[44px] leading-none tracking-[2px]"
+				style="color:rgba(255,255,255,0.05);">VS</span
 			>
 			<div class="flex flex-col items-center gap-0.5">
 				<span

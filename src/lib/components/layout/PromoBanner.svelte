@@ -1,99 +1,80 @@
 <script lang="ts">
-	let active = $state(0);
-
-	const banners = [
-		{
-			tag: 'SPORTS WELCOME BONUS',
-			headline: '100% up to\nKSh 5,000',
-			sub: 'on your first deposit',
-			accent: '#22c55e',
-			bg: 'linear-gradient(160deg, #0a1f12 0%, #071510 100%)',
-			border: 'rgba(34,197,94,0.2)',
-			shape: 'circle',
-			badge: 'NEW'
-		},
-		{
-			tag: 'EARLY PAYOUT OFFER',
-			headline: 'Cash out early\non a 2-goal lead',
-			sub: '20+ point lead in basketball',
-			accent: '#60a5fa',
-			bg: 'linear-gradient(145deg, #0a1225 0%, #06091a 100%)',
-			border: 'rgba(96,165,250,0.2)',
-			shape: 'bolt',
-			badge: 'HOT'
-		},
-		{
-			tag: 'WEEKLY FREE BET',
-			headline: 'Bet KSh 500\nGet KSh 500',
-			sub: 'Every Friday for loyal members',
-			accent: '#f5c842',
-			bg: 'linear-gradient(155deg, #1a1408 0%, #120e05 100%)',
-			border: 'rgba(245,200,66,0.2)',
-			shape: 'diamond',
-			badge: 'WEEKLY'
-		}
-	];
+	import { authModalOpen } from '$lib/stores/auth';
+	import { Gift, Zap } from 'lucide-svelte';
 </script>
 
-<div class="grid grid-cols-3 gap-2.5 mb-4">
-	{#each banners as b, i}
-		<button
-			onclick={() => (active = i)}
-			aria-label="{b.badge}: {b.tag}"
-			aria-pressed={i === active}
-			class="relative rounded-xl px-4 py-3.5 text-left overflow-hidden transition-all duration-200"
-			style="
-				background:{b.bg};
-				border:1px solid {i === active ? b.border : 'rgba(255,255,255,0.05)'};
-				transform:{i === active ? 'translateY(-1px)' : 'none'};
-			"
-		>
-			<!-- Badge -->
-			<span
-				class="inline-block text-[9px] font-bold tracking-[1px] px-1.5 py-0.5 rounded mb-2"
-				style="background:rgba(255,255,255,0.08); color:{b.accent};"
-			>
-				{b.badge}
-			</span>
-
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-4">
+	<!-- Welcome Bonus -->
+	<button
+		onclick={() => authModalOpen.set(true)}
+		aria-label="Welcome bonus: 100% up to KSh 5,000"
+		class="relative rounded-xl px-5 py-4 text-left overflow-hidden transition-all duration-200 hover:border-[rgba(34,197,94,0.35)]"
+		style="
+			background:linear-gradient(160deg, #0a1f12 0%, #071510 100%);
+			border:1px solid rgba(34,197,94,0.2);
+		"
+	>
+		<div class="flex items-start gap-3">
 			<div
-				class="text-[10px] font-semibold mb-1 uppercase tracking-[0.8px]"
-				style="color:{b.accent};"
+				class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+				style="background:rgba(34,197,94,0.12);"
 			>
-				{b.tag}
+				<Gift size={18} style="color:#22c55e;" />
 			</div>
-			<div class="text-[14px] font-bold text-white leading-tight whitespace-pre-line mb-1">
-				{b.headline}
+			<div class="flex-1 min-w-0">
+				<div class="text-[10px] font-bold uppercase tracking-[1px] mb-1" style="color:#22c55e;">
+					Welcome Bonus
+				</div>
+				<div class="text-[16px] font-bold text-white leading-tight mb-0.5">
+					100% up to KSh 5,000
+				</div>
+				<div class="text-[11px]" style="color:rgba(255,255,255,0.45);">
+					On your first deposit via M-PESA
+				</div>
 			</div>
-			<div class="text-[10px]" style="color:rgba(255,255,255,0.4);">{b.sub}</div>
+		</div>
 
-			<!-- Geometric watermark -->
+		<!-- Active indicator -->
+		<div
+			class="absolute bottom-0 left-0 right-0 h-[2px]"
+			style="background:linear-gradient(90deg, transparent, #22c55e, transparent);"
+		></div>
+	</button>
+
+	<!-- Weekly Free Bet -->
+	<button
+		onclick={() => authModalOpen.set(true)}
+		aria-label="Weekly free bet: Bet KSh 500, Get KSh 500"
+		class="relative rounded-xl px-5 py-4 text-left overflow-hidden transition-all duration-200 hover:border-[rgba(240,192,64,0.35)]"
+		style="
+			background:linear-gradient(155deg, #1a1408 0%, #120e05 100%);
+			border:1px solid rgba(240,192,64,0.2);
+		"
+	>
+		<div class="flex items-start gap-3">
 			<div
-				class="absolute -bottom-2 -right-1 pointer-events-none select-none leading-none"
-				style="width:48px; height:48px; opacity:0.12;"
+				class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
+				style="background:rgba(240,192,64,0.12);"
 			>
-				{#if b.shape === 'circle'}
-					<div class="w-full h-full rounded-full" style="border:3px solid {b.accent};"></div>
-				{:else if b.shape === 'bolt'}
-					<div
-						class="w-full h-full"
-						style="clip-path:polygon(50% 0%, 0% 45%, 38% 45%, 30% 100%, 100% 50%, 62% 50%); background:{b.accent};"
-					></div>
-				{:else}
-					<div
-						class="w-full h-full"
-						style="clip-path:polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); background:{b.accent};"
-					></div>
-				{/if}
+				<Zap size={18} style="color:#f0c040;" />
 			</div>
+			<div class="flex-1 min-w-0">
+				<div class="text-[10px] font-bold uppercase tracking-[1px] mb-1" style="color:#f0c040;">
+					Weekly Free Bet
+				</div>
+				<div class="text-[16px] font-bold text-white leading-tight mb-0.5">
+					Bet KSh 500, Get KSh 500
+				</div>
+				<div class="text-[11px]" style="color:rgba(255,255,255,0.45);">
+					Every Friday for loyal members
+				</div>
+			</div>
+		</div>
 
-			<!-- Active indicator bar -->
-			{#if i === active}
-				<div
-					class="absolute bottom-0 left-0 right-0 h-[2px] rounded-b-xl"
-					style="background:linear-gradient(90deg, transparent, {b.accent}, transparent);"
-				></div>
-			{/if}
-		</button>
-	{/each}
+		<!-- Active indicator -->
+		<div
+			class="absolute bottom-0 left-0 right-0 h-[2px]"
+			style="background:linear-gradient(90deg, transparent, #f0c040, transparent);"
+		></div>
+	</button>
 </div>

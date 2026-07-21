@@ -157,12 +157,13 @@
 
 	<!-- 1X2 -->
 	{#if main1x2}
-		<div class="flex gap-1 shrink-0 py-2">
+		<div class="flex gap-1.5 shrink-0 py-2">
 			{#each main1x2.odds as odd (odd.event_odd_id)}
 				<MarketButton
 					{odd}
 					selected={$betSlip.has(odd.event_odd_id)}
 					showDirection={true}
+					wide={true}
 					onClick={() =>
 						toggle(odd.event_odd_id, odd.outcome_alias, odd.outcome_name, odd.odd_value, '1x2')}
 				/>

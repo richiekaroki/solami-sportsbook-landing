@@ -16,6 +16,7 @@
 		compactLabel?: boolean;
 		showDirection?: boolean;
 		matchLabel?: string;
+		wide?: boolean;
 		onClick?: () => void;
 	}
 
@@ -26,6 +27,7 @@
 		compactLabel = false,
 		showDirection = true,
 		matchLabel = '',
+		wide = false,
 		onClick = () => {}
 	}: Props = $props();
 
@@ -54,7 +56,7 @@
 	aria-pressed={selected}
 	class="relative flex flex-col items-center justify-center rounded-lg transition-all duration-150 cursor-pointer overflow-hidden group"
 	style="
-		width:44px; height:44px;
+		width:{wide ? '52px' : '44px'}; height:44px;
 		background:{selected ? 'rgba(240,192,64,0.12)' : 'rgba(255,255,255,0.03)'};
 		border:1px solid {selected ? 'rgba(240,192,64,0.4)' : 'var(--color-border)'};
 		box-shadow:{selected

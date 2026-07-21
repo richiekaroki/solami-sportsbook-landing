@@ -12,10 +12,10 @@
 	import Sidebar from '$lib/components/layout/Sidebar.svelte';
 	import PromoBanner from '$lib/components/layout/PromoBanner.svelte';
 	import SportsNav from '$lib/components/layout/SportsNav.svelte';
-	import AuthModal from '$lib/components/ui/AuthModal.svelte';
 	import ReferAFriend from '$lib/components/sections/ReferAFriend.svelte';
 	import ResponsibleGambling from '$lib/components/sections/ResponsibleGambling.svelte';
 	import { searchQuery } from '$lib/stores/search';
+	import { authModalOpen } from '$lib/stores/auth';
 	import { trackCTA } from '$lib/utils/tracking';
 	import { CircleDot } from 'lucide-svelte';
 	import Tooltip from '$lib/components/ui/Tooltip.svelte';
@@ -28,7 +28,6 @@
 	const featured = games.find((g) => g.parent_match_id === 69339342) ?? games[0];
 
 	let activeComp = $state('all');
-	let authOpen = $state(false);
 
 	// Filter by competition tab AND search query
 	const filtered = $derived(
@@ -169,7 +168,7 @@
 	<main id="main-content" class="flex-1 min-w-0 overflow-x-hidden">
 		<div class="px-4 py-4">
 			<!-- 1. HERO — conversion block -->
-			<HeroSection onJoin={() => (authOpen = true)} />
+			<HeroSection onJoin={() => authModalOpen.set(true)} />
 
 			<!-- 2. FEATURED MATCH -->
 			<div class="mb-4" id="featured">
@@ -320,7 +319,7 @@
 									>
 										Match
 									</div>
-									<div class="flex items-center gap-1 shrink-0">
+									<div class="flex items-center gap-1.5 shrink-0">
 										<span
 											class="text-[10px] font-bold uppercase tracking-[0.5px] mr-0.5 border-b border-dotted cursor-help"
 											style="color:var(--color-text-muted); border-color:var(--color-text-muted);"
@@ -329,7 +328,7 @@
 										<Tooltip text="Match result: Home win (1), Draw (X), or Away win (2)" />
 										{#each ['1', 'X', '2'] as h}<div
 												class="text-[10px] font-bold text-center"
-												style="width:44px; color:var(--color-text-muted);"
+												style="width:52px; color:var(--color-text-muted);"
 											>
 												{h}
 											</div>{/each}
@@ -504,11 +503,12 @@
 					<button
 						onclick={() => {
 							trackCTA('footer_mobile_join', 'footer');
-							authOpen = true;
+							authModalOpen.set(true);
 						}}
 						aria-label="Join now and claim bonus"
 						class="shrink-0 px-4 py-2 rounded-xl font-bold text-[13px] cursor-pointer"
-						style="background:var(--color-gold); color:var(--color-nav);">Join Now</button
+						style="background:var(--color-gold); color:var(--color-nav);"
+						>Join Free — Claim KSh 500</button
 					>
 				</div>
 
@@ -575,6 +575,3 @@
 
 <!-- Mobile betslip -->
 <div class="xl:hidden"><BetSlip /></div>
-
-<!-- Page-level auth modal (hero CTA + footer CTA) -->
-<AuthModal bind:open={authOpen} onClose={() => (authOpen = false)} />

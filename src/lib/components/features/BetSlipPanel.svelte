@@ -14,7 +14,7 @@
 	import { formatOdds, formatKES } from '$lib/utils/formatters';
 	import { trackBetPlaced } from '$lib/utils/tracking';
 	import { QUICK_STAKES } from '$lib/constants';
-	import { X, Target, Zap, ChevronDown, ChevronUp, AlertTriangle } from 'lucide-svelte';
+	import { X, Target, Zap, ChevronDown, ChevronUp, AlertTriangle, TrendingUp } from 'lucide-svelte';
 
 	let activeMode = $state<'single' | 'acca'>('single');
 	let showTax = $state(false);
@@ -92,11 +92,37 @@
 
 	<div class="flex-1 overflow-y-auto px-3 py-3 flex flex-col gap-2" style="min-height:160px;">
 		{#if $selectionCount === 0}
-			<div class="flex flex-col items-center justify-center gap-3 py-10 text-center h-full">
-				<Target size={32} style="color:var(--color-text-muted); opacity:0.3;" />
-				<div class="text-[13px]" style="color:var(--color-text-muted);">No selections yet</div>
+			<div class="flex flex-col items-center justify-center gap-3 py-8 text-center h-full">
+				<Target size={28} style="color:var(--color-text-muted); opacity:0.3;" />
+				<div class="text-[13px] font-semibold" style="color:var(--color-text-muted);">
+					No selections yet
+				</div>
 				<div class="text-[11px] leading-relaxed" style="color:rgba(107,114,128,0.5);">
-					Click any odds button<br />to add to your slip
+					Click any odds button to add it
+				</div>
+				<div
+					class="w-full mt-2 rounded-xl p-3"
+					style="background:var(--color-card); border:1px solid var(--color-border);"
+				>
+					<div class="flex items-center gap-1.5 mb-2">
+						<TrendingUp size={12} style="color:var(--color-gold);" />
+						<span
+							class="text-[10px] font-bold uppercase tracking-[0.8px]"
+							style="color:var(--color-gold);"
+						>
+							Popular picks
+						</span>
+					</div>
+					<div class="flex flex-col gap-1.5">
+						{#each [{ match: 'Barcelona vs Atletico', pick: 'Home win', odds: '1.85' }, { match: 'Barcelona vs Atletico', pick: 'Over 2.5', odds: '1.72' }, { match: 'Barcelona vs Atletico', pick: 'BTTS Yes', odds: '1.68' }] as tip}
+							<div class="flex items-center justify-between text-[10px]">
+								<span style="color:var(--color-text-muted);">{tip.pick}</span>
+								<span class="font-mono font-bold" style="color:var(--color-text-dim);"
+									>{tip.odds}</span
+								>
+							</div>
+						{/each}
+					</div>
 				</div>
 			</div>
 		{:else}
