@@ -7,6 +7,18 @@
 
 <svelte:head>
 	<title>Aviator — WAM</title>
+	<meta
+		name="description"
+		content="Play Aviator on WAM. Crash game with instant payouts. Cash out before the plane flies away."
+	/>
+	<meta property="og:title" content="Aviator — WAM" />
+	<meta property="og:description" content="Play Aviator on WAM. Crash game with instant payouts." />
+	<meta property="og:url" content="https://wam.co.ke/aviator" />
+	<meta name="twitter:title" content="Aviator — WAM" />
+	<meta
+		name="twitter:description"
+		content="Play Aviator on WAM. Crash game with instant payouts."
+	/>
 </svelte:head>
 
 <!--

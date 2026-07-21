@@ -26,6 +26,21 @@
 
 <svelte:head>
 	<title>WAM — Join the Waitlist</title>
+	<meta
+		name="description"
+		content="Get early access to WAM sportsbook. Claim KSh 500 free bonus. Kenya's premier betting platform with instant M-PESA payouts."
+	/>
+	<meta property="og:title" content="WAM — Join the Waitlist" />
+	<meta
+		property="og:description"
+		content="Get early access to WAM sportsbook. Claim KSh 500 free bonus. Instant M-PESA payouts."
+	/>
+	<meta property="og:url" content="https://wam.co.ke/waitlist" />
+	<meta name="twitter:title" content="WAM — Join the Waitlist" />
+	<meta
+		name="twitter:description"
+		content="Get early access to WAM sportsbook. Claim KSh 500 free bonus."
+	/>
 </svelte:head>
 
 <main

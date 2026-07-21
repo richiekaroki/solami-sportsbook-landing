@@ -93,6 +93,17 @@
 		name="description"
 		content="Sports betting with instant M-PESA payouts. Bet on LaLiga, UCL, Premier League with 100+ markets per match. Licensed by BCLB Kenya."
 	/>
+	<meta property="og:title" content="WAM — Bet Smarter. Win Bigger." />
+	<meta
+		property="og:description"
+		content="Kenya's premier sportsbook. 100+ markets per match. Instant M-PESA payouts. Licensed by BCLB Kenya."
+	/>
+	<meta property="og:url" content="https://wam.co.ke" />
+	<meta name="twitter:title" content="WAM — Bet Smarter. Win Bigger." />
+	<meta
+		name="twitter:description"
+		content="Kenya's premier sportsbook. 100+ markets per match. Instant M-PESA payouts."
+	/>
 </svelte:head>
 
 <div class="flex w-full min-h-[calc(100vh-56px)]">
