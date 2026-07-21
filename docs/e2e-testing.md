@@ -24,15 +24,22 @@ npx playwright test --headed
 
 ## Architecture
 
-| File                       | Tests   | What it covers                                                                           |
-| -------------------------- | ------- | ---------------------------------------------------------------------------------------- |
-| `auth.spec.ts`             | 33      | Login/signup modal — open, close, form fields, validation, submission                    |
-| `betslip.spec.ts`          | 25      | Bet slip — add/remove, stake input, quick stakes, single/acca tabs, confirm flow, toasts |
-| `content-sections.spec.ts` | 34      | Page sections — hero, trust stats, promo banners, footer, "How to bet"                   |
-| `navigation.spec.ts`       | 19      | Sports nav, competition filters, sidebar, desktop + mobile search                        |
-| `odds-match.spec.ts`       | 26      | Featured match odds grid, match feed, competition groups, keyboard nav, live updates     |
-| `responsive.spec.ts`       | 27      | Responsive layouts (375px/768px/1440px/1920px), SEO, accessibility                       |
-| **Total**                  | **164** |                                                                                          |
+| File                            | Tests   | What it covers                                                                           |
+| ------------------------------- | ------- | ---------------------------------------------------------------------------------------- |
+| `auth.spec.ts`                  | 33      | Login/signup modal — open, close, form fields, validation, submission                    |
+| `betslip.spec.ts`               | 25      | Bet slip — add/remove, stake input, quick stakes, single/acca tabs, confirm flow, toasts |
+| `content-sections.spec.ts`      | 34      | Page sections — hero, trust stats, promo banners, footer, "How to bet"                   |
+| `navigation.spec.ts`            | 19      | Sports nav, competition filters, sidebar, desktop + mobile search                        |
+| `odds-match.spec.ts`            | 26      | Featured match odds grid, match feed, competition groups, keyboard nav, live updates     |
+| `responsive.spec.ts`            | 27      | Responsive layouts (375px/768px/1440px/1920px), SEO, accessibility                       |
+| `routes.spec.ts`                | 23      | /aviator and /waitlist routes — page content, form validation, submission flow           |
+| `tooltip.spec.ts`               | 9       | Tooltip component — hover, focus, escape, aria-describedby, role="tooltip"               |
+| `accessibility.spec.ts`         | 8       | Reduced-motion preferences, TeamBadge CDN fallback                                       |
+| `keyboard-interactions.spec.ts` | 5       | Quick-stake buttons on mobile — existence, clickability, touch target size               |
+| `live-odds.spec.ts`             | 8       | Live odds simulation — direction arrows, toggle, deselect, value updates                 |
+| `mobile-betslip.spec.ts`        | 12      | Mobile bet slip sheet — open, close, stake input, quick stakes, clear, backdrop          |
+| `sections.spec.ts`              | 13      | ReferAFriend + ResponsibleGambling sections — content, helpline, referral code           |
+| **Total**                       | **241** |                                                                                          |
 
 ## Configuration
 
@@ -40,7 +47,7 @@ npx playwright test --headed
 
 ```ts
 {
-  workers: 1,         // Single worker — multiple workers cause OOM on this machine
+  workers: 2,         // Two workers — cuts suite time from ~20min to ~14min
   retries: 2,        // Retries handle V8 memory pressure / OOM flakes
   timeout: 30_000,    // Per-test timeout
   viewport: 1440x900, // Default viewport (overridden per test for responsive)

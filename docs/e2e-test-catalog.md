@@ -1,6 +1,6 @@
 # E2E Test Catalog
 
-Complete listing of all 164 E2E tests organized by file and section.
+Complete listing of all 241 E2E tests organized by file and section.
 
 ---
 
@@ -359,3 +359,178 @@ Tests the app at different viewport sizes and verifies SEO/accessibility.
 | `main content has proper heading hierarchy` | `<h1>` is visible                                |
 | `interactive elements have aria labels`     | Join now + Log in buttons have labels            |
 | `auth modal has proper aria attributes`     | Dialog has `aria-modal="true"` + `role="dialog"` |
+
+---
+
+## routes.spec.ts — Aviator & Waitlist Routes (23 tests)
+
+Tests the /aviator and /waitlist routes for content, form validation, and submission flow.
+
+### /aviator (5 tests)
+
+| Test                                            | Description                    |
+| ----------------------------------------------- | ------------------------------ |
+| `aviator page loads with correct title`         | Title matches "WAM"            |
+| `aviator page shows sidebar`                    | Sidebar visible                |
+| `aviator page has iframe for game`              | `<iframe>` element present     |
+| `aviator iframe has fullscreen allow attribute` | `allow="fullscreen"` attribute |
+| `aviator page has main content area`            | Main content section visible   |
+
+### /waitlist — Form (13 tests)
+
+| Test                                                      | Description                  |
+| --------------------------------------------------------- | ---------------------------- |
+| `waitlist page loads with correct title`                  | Title matches "WAM"          |
+| `waitlist shows WAM logo linking home`                    | Logo with `href="/"`         |
+| `waitlist shows "Early Access" badge`                     | Badge text visible           |
+| `waitlist shows heading "GET IN EARLY"`                   | Heading text visible         |
+| `waitlist shows "+ KSH 500 FREE"` text                    | Bonus text visible           |
+| `waitlist shows phone input with +254 prefix`             | Input with +254 prefix       |
+| `waitlist submit button is disabled with empty phone`     | Button disabled state        |
+| `waitlist submit enables with valid 07xx phone`           | 07xx phone enables submit    |
+| `waitlist submit enables with valid 01xx phone`           | 01xx phone enables submit    |
+| `waitlist submit disabled with invalid phone (05 prefix)` | 05xx phone rejected          |
+| `waitlist shows green checkmark when phone is valid`      | Checkmark icon appears       |
+| `waitlist shows "No spam" disclaimer`                     | Disclaimer text visible      |
+| `waitlist shows "18+ only" text`                          | Age restriction text visible |
+
+### /waitlist — Submission (5 tests)
+
+| Test                                                        | Description                       |
+| ----------------------------------------------------------- | --------------------------------- |
+| `waitlist submit shows loading then success`                | Submit → loading → success screen |
+| `waitlist success screen shows formatted phone`             | Phone formatted with spaces       |
+| `waitlist success shows "KSh 500 Bonus Reserved"`           | Bonus confirmation text           |
+| `waitlist success has "Back to live odds" link`             | Link with `href="/"`              |
+| `waitlist success screen shows formatted phone with spaces` | Phone formatted as "0712 345 678" |
+
+---
+
+## tooltip.spec.ts — Tooltip Component (9 tests)
+
+Tests the tooltip component used in the "How to bet" section for market explanations.
+
+### Tooltip Behavior (9 tests)
+
+| Test                                                   | Description                                    |
+| ------------------------------------------------------ | ---------------------------------------------- |
+| `tooltip help buttons exist in the how-to-bet section` | At least 1 tooltip help button found           |
+| `tooltip content appears on hover`                     | Hovering shows `#tooltip-content`              |
+| `tooltip shows correct text for 1X2`                   | Tooltip contains "Match result"                |
+| `tooltip hides on mouse leave`                         | Moving mouse away hides tooltip                |
+| `tooltip appears on focus`                             | Focusing button shows tooltip                  |
+| `tooltip disappears on Escape`                         | Escape key hides tooltip                       |
+| `tooltip button has aria-describedby when visible`     | `aria-describedby="tooltip-content"` attribute |
+| `tooltip button has no aria-describedby when hidden`   | Attribute absent when tooltip hidden           |
+| `tooltip has role="tooltip"`                           | Tooltip element has `role="tooltip"`           |
+
+---
+
+## accessibility.spec.ts — Accessibility (8 tests)
+
+Tests accessibility features: reduced-motion preferences and team badge CDN fallback.
+
+### prefers-reduced-motion (4 tests)
+
+| Test                                                     | Description                  |
+| -------------------------------------------------------- | ---------------------------- |
+| `animations are disabled with reduced motion preference` | CSS animations disabled      |
+| `page loads without errors with reduced motion`          | No errors on page load       |
+| `odds buttons still functional with reduced motion`      | Odds buttons clickable       |
+| `auth modal still functional with reduced motion`        | Modal opens/closes correctly |
+
+### TeamBadge CDN Fallback (4 tests)
+
+| Test                                              | Description                           |
+| ------------------------------------------------- | ------------------------------------- |
+| `match rows show team badges`                     | At least 1 team badge element present |
+| `team badges contain either an image or initials` | `<img>` or initials `<span>` fallback |
+| `team badge has correct size attribute`           | Badge has width/height attributes     |
+| `featured match shows large team badges`          | Featured match badges are larger      |
+
+---
+
+## keyboard-interactions.spec.ts — Quick-Stake Buttons (5 tests)
+
+Tests the quick-stake buttons on mobile bet slip sheet.
+
+### Quick-Stake Buttons (5 tests)
+
+| Test                                             | Description                                  |
+| ------------------------------------------------ | -------------------------------------------- |
+| `all 4 quick stake buttons exist`                | 4 buttons with "Set stake to KSh" aria-label |
+| `KSh 50 button is clickable`                     | Button is enabled and clickable              |
+| `KSh 200 button is clickable`                    | Button is clickable                          |
+| `KSh 500 button is clickable`                    | Button is clickable                          |
+| `quick stake buttons have min 44px touch target` | Button height ≥ 44px for accessibility       |
+
+---
+
+## live-odds.spec.ts — Live Odds Simulation (8 tests)
+
+Tests the live odds simulation behavior on match rows and featured match.
+
+### Live Odds (8 tests)
+
+| Test                                                  | Description                               |
+| ----------------------------------------------------- | ----------------------------------------- |
+| `odds buttons show direction arrows initially`        | Featured odds buttons have `aria-pressed` |
+| `odds values are numerical format`                    | Text matches `\d+\.\d+` pattern           |
+| `odds values update over time (live simulation)`      | Button visible after 8s wait              |
+| `match row odds buttons have direction indicators`    | ≥3 odds buttons per match row             |
+| `match row odds are clickable and toggle`             | Clicking toggles `aria-pressed` state     |
+| `match row odds can be deselected`                    | Click again reverses the toggle           |
+| `odds values are different across market columns`     | ≥2 unique odds values across buttons      |
+| `featured match shows "Odds updating live" indicator` | Live indicator text visible               |
+
+---
+
+## mobile-betslip.spec.ts — Mobile Bet Slip Sheet (12 tests)
+
+Tests the mobile bet slip bottom sheet: opening, closing, interactions, and responsive behavior.
+
+### Mobile Sheet (12 tests)
+
+| Test                                                  | Description                                 |
+| ----------------------------------------------------- | ------------------------------------------- |
+| `floating cart button appears after adding selection` | Cart button visible after odds click        |
+| `floating cart shows selection count`                 | Cart button contains "1"                    |
+| `clicking floating cart opens bottom sheet`           | `role="dialog"` with "Bet slip" appears     |
+| `bottom sheet shows "BET SLIP" header`                | Header text visible                         |
+| `bottom sheet has Single and Accumulator tabs`        | Both tab buttons present                    |
+| `bottom sheet shows stake input`                      | `spinbutton` with "Stake amount" aria-label |
+| `bottom sheet shows quick stake buttons`              | 4 quick-stake buttons                       |
+| `bottom sheet close button closes the sheet`          | Sheet not visible after close               |
+| `bottom sheet "Clear all" clears selections`          | Cart button hidden after clear              |
+| `bottom sheet backdrop closes the sheet`              | Sheet closes on backdrop click              |
+| `bottom sheet shows Place Bet button`                 | Place Bet button visible in sheet           |
+| `bottom sheet shows potential win`                    | "Potential Win" text visible                |
+| `floating cart button hidden on desktop`              | Cart button not visible at 1440px           |
+
+---
+
+## sections.spec.ts — ReferAFriend & ResponsibleGambling (13 tests)
+
+Tests the ReferAFriend and ResponsibleGambling section components.
+
+### ReferAFriend Section (6 tests)
+
+| Test                                    | Description                            |
+| --------------------------------------- | -------------------------------------- |
+| `shows "Refer a Friend" heading`        | Section heading visible                |
+| `shows bonus amount "KSh 250"`          | Bonus amount text visible              |
+| `shows "Both get" text`                 | "Both get" text visible                |
+| `shows referral code "WAM500"`          | Referral code text visible             |
+| `copy button exists with aria-label`    | Copy button with proper aria-label     |
+| `copy button has min 44px touch target` | Button height ≥ 44px for accessibility |
+
+### ResponsibleGambling Section (7 tests)
+
+| Test                                     | Description               |
+| ---------------------------------------- | ------------------------- |
+| `shows "Responsible Gambling" heading`   | Section heading visible   |
+| `shows responsible gambling advice text` | Advice text visible       |
+| `shows "Set limits" text`                | "Set limits" text visible |
+| `shows helpline number "0800 723 456"`   | Helpline number visible   |
+| `shows "toll-free" label`                | "toll-free" text visible  |
+| `shows "Need help?" text`                | "Need help?" text visible |
