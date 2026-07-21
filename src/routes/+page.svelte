@@ -104,6 +104,56 @@
 		name="twitter:description"
 		content="Kenya's premier sportsbook. 100+ markets per match. Instant M-PESA payouts."
 	/>
+	<script type="application/ld+json">
+		{
+			"@context": "https://schema.org",
+			"@type": "SportsOrganization",
+			"name": "WAM Sportsbook",
+			"url": "https://wam.co.ke",
+			"description": "Kenya's premier sportsbook with instant M-PESA payouts. Bet on LaLiga, UCL, Premier League with 100+ markets per match.",
+			"areaServed": {
+				"@type": "Country",
+				"name": "Kenya"
+			},
+			"sameAs": [],
+			"offers": {
+				"@type": "Offer",
+				"description": "Welcome bonus: Get KSh 500 free on signup",
+				"priceCurrency": "KES",
+				"price": "0"
+			},
+			"hasOfferCatalog": {
+				"@type": "OfferCatalog",
+				"name": "Sports Betting Markets",
+				"itemListElement": [
+					{
+						"@type": "Offer",
+						"itemOffered": {
+							"@type": "SportsEvent",
+							"name": "LaLiga Football",
+							"sport": "Football"
+						}
+					},
+					{
+						"@type": "Offer",
+						"itemOffered": {
+							"@type": "SportsEvent",
+							"name": "UEFA Champions League",
+							"sport": "Football"
+						}
+					},
+					{
+						"@type": "Offer",
+						"itemOffered": {
+							"@type": "SportsEvent",
+							"name": "Premier League",
+							"sport": "Football"
+						}
+					}
+				]
+			}
+		}
+	</script>
 </svelte:head>
 
 <div class="flex w-full min-h-[calc(100vh-56px)]">
