@@ -12,15 +12,17 @@
 	injectSpeedInsights();
 
 	let { children } = $props();
-	let authOpen = $state(false);
 
-	$effect(() => {
-		const unsub = authModalOpen.subscribe((v) => (authOpen = v));
-		return unsub;
-	});
+	function handleOpenAuth() {
+		authModalOpen.set(true);
+	}
+
+	function handleCloseAuth() {
+		authModalOpen.set(false);
+	}
 </script>
 
-<Header onJoin={() => authModalOpen.set(true)} />
+<Header onJoin={handleOpenAuth} />
 
 <a
 	href="#main-content"
@@ -34,5 +36,5 @@
 	{@render children()}
 </div>
 
-<AuthModal bind:open={authOpen} onClose={() => authModalOpen.set(false)} />
+<AuthModal open={$authModalOpen} onClose={handleCloseAuth} />
 <Toast />

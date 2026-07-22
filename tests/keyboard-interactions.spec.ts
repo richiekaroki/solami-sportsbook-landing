@@ -4,7 +4,7 @@ const BASE = 'http://localhost:5173';
 
 async function goToMobile(page: Page) {
 	await page.setViewportSize({ width: 375, height: 812 });
-	await page.goto(BASE, { waitUntil: 'networkidle' });
+	await page.goto(BASE, { waitUntil: 'networkidle', timeout: 15000 });
 }
 
 async function addSelectionAndOpenSheet(page: Page) {

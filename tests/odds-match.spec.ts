@@ -3,7 +3,7 @@ import { test, expect, type Page } from '@playwright/test';
 const BASE = 'http://localhost:5173';
 
 async function goToHome(page: Page) {
-	await page.goto(BASE, { waitUntil: 'networkidle' });
+	await page.goto(BASE, { waitUntil: 'networkidle', timeout: 15000 });
 }
 
 test.describe('Odds Grid – Featured Match', () => {

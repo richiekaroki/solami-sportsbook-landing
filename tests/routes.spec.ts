@@ -2,32 +2,41 @@ import { test, expect, type Page } from '@playwright/test';
 
 const BASE = 'http://localhost:5173';
 
+async function gotoAndWait(page: Page, url: string) {
+	await page.goto(url, { waitUntil: 'networkidle', timeout: 15000 });
+}
+
 test.describe('Route: /aviator', () => {
 	test('aviator page loads with correct title', async ({ page }) => {
-		await page.goto(`${BASE}/aviator`, { waitUntil: 'networkidle' });
+		await gotoAndWait(page, `${BASE}/aviator`);
 		await expect(page).toHaveTitle(/Aviator.*WAM/);
 	});
 
 	test('aviator page shows sidebar', async ({ page }) => {
-		await page.goto(`${BASE}/aviator`, { waitUntil: 'networkidle' });
+		await gotoAndWait(page, `${BASE}/aviator`);
 		const sidebar = page.locator('.hidden.xl\\:flex').first();
 		await expect(sidebar).toBeVisible();
 	});
 
-	test('aviator page has iframe for game', async ({ page }) => {
-		await page.goto(`${BASE}/aviator`, { waitUntil: 'networkidle' });
-		const iframe = page.locator('iframe[title="Aviator"]');
-		await expect(iframe).toBeVisible();
+	test('aviator page shows Coming Soon badge', async ({ page }) => {
+		await gotoAndWait(page, `${BASE}/aviator`);
+		await expect(page.getByText('Coming Soon')).toBeVisible();
 	});
 
-	test('aviator iframe has fullscreen allow attribute', async ({ page }) => {
-		await page.goto(`${BASE}/aviator`, { waitUntil: 'networkidle' });
-		const iframe = page.locator('iframe[title="Aviator"]');
-		await expect(iframe).toHaveAttribute('allow', /fullscreen/);
+	test('aviator page shows feature preview cards', async ({ page }) => {
+		await gotoAndWait(page, `${BASE}/aviator`);
+		await expect(page.getByText('Instant Payouts', { exact: true })).toBeVisible();
+		await expect(page.getByText('Crash Multiplier', { exact: true })).toBeVisible();
+	});
+
+	test('aviator page has Join Waitlist button', async ({ page }) => {
+		await gotoAndWait(page, `${BASE}/aviator`);
+		const btn = page.getByRole('button', { name: /Join Waitlist/ });
+		await expect(btn).toBeVisible();
 	});
 
 	test('aviator page has main content area', async ({ page }) => {
-		await page.goto(`${BASE}/aviator`, { waitUntil: 'networkidle' });
+		await gotoAndWait(page, `${BASE}/aviator`);
 		const main = page.locator('#main-content');
 		await expect(main).toBeVisible();
 	});
@@ -35,7 +44,7 @@ test.describe('Route: /aviator', () => {
 
 test.describe('Route: /waitlist', () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto(`${BASE}/waitlist`, { waitUntil: 'networkidle' });
+		await gotoAndWait(page, `${BASE}/waitlist`);
 	});
 
 	test('waitlist page loads with correct title', async ({ page }) => {

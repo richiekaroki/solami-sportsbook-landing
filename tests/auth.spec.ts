@@ -2,15 +2,15 @@ import { test, expect } from '@playwright/test';
 
 const BASE = 'http://localhost:5173';
 
-/** Open the auth modal from the hero CTA (signup mode) */
+/** Wait for SvelteKit hydration then open the auth modal */
 async function openSignupModal(page: import('@playwright/test').Page) {
-	await page.locator('button', { hasText: 'Join Free — Claim KSh 500' }).click();
+	await page.getByRole('button', { name: 'Join now and claim KSh 500 bonus' }).first().click();
 	await expect(page.getByRole('dialog')).toBeVisible();
 }
 
 test.describe('Auth Modal – Login & Signup', () => {
 	test.beforeEach(async ({ page }) => {
-		await page.goto(BASE, { waitUntil: 'networkidle' });
+		await page.goto(BASE, { waitUntil: 'networkidle', timeout: 15000 });
 	});
 
 	// ───────────────────── OPEN MODAL ─────────────────────

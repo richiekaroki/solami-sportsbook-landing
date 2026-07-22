@@ -3,7 +3,7 @@ import { test, expect, type Page } from '@playwright/test';
 const BASE = 'http://localhost:5173';
 
 async function goToHome(page: Page) {
-	await page.goto(BASE, { waitUntil: 'networkidle' });
+	await page.goto(BASE, { waitUntil: 'networkidle', timeout: 15000 });
 }
 
 test.describe('Hero Section', () => {
@@ -103,24 +103,18 @@ test.describe('Promo Banners', () => {
 	});
 
 	test('shows promo banners', async ({ page }) => {
-		await expect(page.getByText('SPORTS WELCOME BONUS')).toBeVisible();
-		await expect(page.getByText('EARLY PAYOUT OFFER')).toBeVisible();
-		await expect(page.getByText('WEEKLY FREE BET')).toBeVisible();
+		await expect(page.getByText('Welcome Bonus')).toBeVisible();
+		await expect(page.getByText('Weekly Free Bet')).toBeVisible();
 	});
 
-	test('first banner is active by default', async ({ page }) => {
-		const banner = page.getByRole('button', { name: /SPORTS WELCOME BONUS/ });
-		await expect(banner).toHaveAttribute('aria-pressed', 'true');
-	});
-
-	test('clicking a banner activates it', async ({ page }) => {
-		const banner2 = page.getByRole('button', { name: /EARLY PAYOUT OFFER/ });
-		await banner2.click();
-		await expect(banner2).toHaveAttribute('aria-pressed', 'true');
+	test('welcome bonus banner opens auth modal on click', async ({ page }) => {
+		const banner = page.getByRole('button', { name: /Welcome bonus/ });
+		await banner.click();
+		await expect(page.getByRole('dialog')).toBeVisible();
 	});
 
 	test('banner shows deposit text', async ({ page }) => {
-		await expect(page.getByText('on your first deposit')).toBeVisible();
+		await expect(page.getByText('On your first deposit')).toBeVisible();
 	});
 });
 

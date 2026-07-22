@@ -3,7 +3,7 @@ import { test, expect, type Page } from '@playwright/test';
 const BASE = 'http://localhost:5173';
 
 async function goToHome(page: Page) {
-	await page.goto(BASE, { waitUntil: 'networkidle' });
+	await page.goto(BASE, { waitUntil: 'networkidle', timeout: 15000 });
 }
 
 test.describe('Responsive Layout – Desktop (1440px)', () => {
@@ -168,7 +168,7 @@ test.describe('SEO & Accessibility', () => {
 	});
 
 	test('auth modal has proper aria attributes', async ({ page }) => {
-		await page.locator('button', { hasText: 'Join Free — Claim KSh 500' }).click();
+		await page.getByRole('button', { name: 'Join now and claim KSh 500 bonus' }).first().click();
 		const dialog = page.getByRole('dialog');
 		await expect(dialog).toHaveAttribute('aria-modal', 'true');
 		await expect(dialog).toHaveAttribute('role', 'dialog');

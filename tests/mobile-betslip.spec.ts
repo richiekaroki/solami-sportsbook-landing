@@ -4,7 +4,7 @@ const BASE = 'http://localhost:5173';
 
 async function goToMobile(page: Page) {
 	await page.setViewportSize({ width: 375, height: 812 });
-	await page.goto(BASE, { waitUntil: 'networkidle' });
+	await page.goto(BASE, { waitUntil: 'networkidle', timeout: 15000 });
 }
 
 async function addSelection(page: Page) {
@@ -114,7 +114,7 @@ test.describe('Mobile Bet Slip Sheet', () => {
 
 	test('floating cart button hidden on desktop', async ({ page }) => {
 		await page.setViewportSize({ width: 1440, height: 900 });
-		await page.goto(BASE, { waitUntil: 'networkidle' });
+		await page.goto(BASE, { waitUntil: 'networkidle', timeout: 15000 });
 		await addSelection(page);
 		const cartBtn = page.getByRole('button', { name: 'Open bet slip' });
 		await expect(cartBtn).not.toBeVisible();
